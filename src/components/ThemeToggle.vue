@@ -1,3 +1,13 @@
+<script setup>
+import { ref } from 'vue';
+import { useDark } from '@vueuse/core';
+
+// Reactive variable for theme toggle
+const isDark = useDark({
+    selector: 'body', // Sets the dark mode class on the <html> element
+});
+</script>
+
 <template>
     <div class="">
         <input type="checkbox" id="light-switch" v-model="isDark" class="light-switch sr-only" />
@@ -15,17 +25,21 @@
                 <path class="fill-current text-slate-500"
                     d="M12.5 6a.625.625 0 0 1-.625-.625 1.252 1.252 0 0 0-1.25-1.25.625.625 0 1 1 0-1.25 1.252 1.252 0 0 0 1.25-1.25.625.625 0 1 1 1.25 0c.001.69.56 1.249 1.25 1.25a.625.625 0 1 1 0 1.25c-.69.001-1.249.56-1.25 1.25A.625.625 0 0 1 12.5 6Z" />
             </svg>
-            <span class="sr-only">Switch to light / dark version</span>
+            <span tabindex="0" class="sr-only">Switch to light / dark version</span>
         </label>
     </div>
 </template>
 
-<script setup>
-import { ref } from 'vue';
-import { useDark } from '@vueuse/core';
+<style>
+/* .myLabelToggle {
+    border:2px solid red;
+} */
 
-// Reactive variable for theme toggle
-const isDark = useDark({
-    selector: 'body', // Sets the dark mode class on the <html> element
-});
-</script>
+/*  .myLabelToggle:hover  {
+    border:4px solid yellow;
+} */
+
+/* .myLabelToggle:focus  {
+    border:4px solid yellow;
+} */
+</style>

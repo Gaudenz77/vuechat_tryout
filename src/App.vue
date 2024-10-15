@@ -31,17 +31,17 @@ const handleSignout = async () => {
       <router-link to="/login" v-if="!isLoggedIn">Login</router-link> |
       <router-link to="/register" v-if="!isLoggedIn">Register</router-link> |
       <!-- Show Sign Out button only if the user is logged in -->
-      <button class="dark:bg-pink-900 dark:text-slate-100 bg-emerald-800 text-slate-100 px-4 py-2 rounded-lg" @click="handleSignout" v-if="isLoggedIn">
+      <button class="dark:bg-pink-900 dark:text-slate-100 bg-emerald-800 text-slate-100 px-4 py-2 rounded-lg"
+        @click="handleSignout" v-if="isLoggedIn">
         Sign Out
       </button>
       <div class="nav">
-        <ThemeToggle /> <!-- Display the ThemeToggle component -->
+        <ThemeToggle />
+        <!-- Display the ThemeToggle component -->
       </div>
-      <!-- Display the ClickYouFate component -->
-       <!-- <ClickYouFate /> -->
     </nav>
-        <!-- Pass user data to SecondPage -->
-        <router-view :user="auth.currentUser"></router-view><!-- Displays the active component -->
+    <!-- Pass user data to SecondPage -->
+    <router-view :user="auth.currentUser"></router-view><!-- Displays the active component -->
   </div>
 </template>
 
