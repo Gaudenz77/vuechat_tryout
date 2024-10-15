@@ -46,15 +46,31 @@ const handleKeyPress = (event: KeyboardEvent) => {
         <div class="bg-slate-100 text-gray-800 rounded-lg p-6 " style="overflow:scroll; height:400px;">
           <h1>Chat Room</h1>
           <div v-for="message in messages" :key="message.id">
-            <p>{{ message.text }} <br />- {{ message.userId }}</p>
+            <div class="message-container">
+      <!-- Display the user's profile picture -->
+      <img :src="message.userPhotoURL" alt="Profile Picture" v-if="message.userPhotoURL" class="profile-pic" />
+
+            <p>{{ message.text }} <br />- {{ message.userId }} <br />- <strong>{{ message.userName }}</strong></p>
             <br /><!-- Display the user's name -->
           </div>
         </div>
       </div>
     </div>
+    </div>
   </div>
 </template>
 
 <style>
-/* Your styles here */
+/* Example CSS for profile picture styling */
+.profile-pic {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 10px;
+}
+.message-container {
+  display: flex;
+  align-items: center;
+}
 </style>

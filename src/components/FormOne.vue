@@ -1,84 +1,125 @@
 <script setup lang="ts">
-/* import { GoogleAuthProvider } from "firebase/auth/web-extension"; */
-import { ref } from "vue";
-import { getAuth, createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup }  from 'firebase/auth'
-import router from '../router' 
+import { ref } from 'vue';
+import { getAuth, createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, updateProfile } from 'firebase/auth';
+import { getStorage, ref as storageRef, uploadBytes, getDownloadURL } from 'firebase/storage';
+import router from '../router';
 
 // Reactive form data object
 let formdata = ref({
   email: '',
   password: '',
+  displayName: '',
+  profilePic: null as File | null, // Initialize as File | null to avoid type error
 });
 
 // Initialize Firebase Authentication
 const auth = getAuth();
 const provider = new GoogleAuthProvider();
+const storage = getStorage();
+
+// Handle file upload for the profile picture
+const handleFileUpload = (event: Event) => {
+  const file = (event.target as HTMLInputElement).files?.[0];
+  if (file) {
+    formdata.value.profilePic = file; // Assign the file to profilePic
+  }
+};
 
 // Method to handle form submission for registration
 const register = async (event: Event) => {
   event.preventDefault(); // Prevent form from refreshing the page
 
   try {
+    // Create user
     const userCredential = await createUserWithEmailAndPassword(auth, formdata.value.email, formdata.value.password);
-    console.log('User registered:', userCredential.user);
+    const user = userCredential.user;
+
+    // Initialize photoURL to null first
+    let photoURL = null;
+
+    // If a profile picture is selected, upload it to Firebase Storage
+    if (formdata.value.profilePic) {
+      const storageRefPath = storageRef(storage, `profilePics/${user.uid}`);
+      const snapshot = await uploadBytes(storageRefPath, formdata.value.profilePic);
+      photoURL = await getDownloadURL(snapshot.ref);
+    }
+
+    // Update user profile to include displayName and photoURL
+    await updateProfile(user, {
+      displayName: formdata.value.displayName,
+      photoURL: photoURL || '', // Use the uploaded photoURL or an empty string
+    });
+
+    console.log('User registered:', user);
     alert(`User registered with email: ${formdata.value.email}`);
 
     // Clear the form data object after successful registration
     formdata.value.email = '';
     formdata.value.password = '';
+    formdata.value.displayName = '';
+    formdata.value.profilePic = null; // Reset the profilePic field
 
-    // Redirect to second page after successful registration
+    // Redirect to the second page after successful registration
     router.push('/secondpage');
   } catch (error) {
     if (error instanceof Error) {
-    console.error('Registration error:', error);
-    alert('Error during registration: ' + error.message);
+      console.error('Registration error:', error);
+      alert('Error during registration: ' + error.message);
     }
   }
 };
 
-// Method to handle Google Sign-In
+// Sign in with Google
 const signInWithGoogle = async (event: Event) => {
-  event.preventDefault(); // Prevent form from refreshing the page
+  event.preventDefault();
 
   try {
     const result = await signInWithPopup(auth, provider);
-    console.log('User signed in with Google:', result.user);
-    alert(`User signed in with Google: ${result.user.email}`);
+    const user = result.user;
 
-    // Redirect to second page after successful Google sign-in
+    console.log('User signed in with Google:', user);
+    alert(`User signed in with Google: ${user.displayName} (Email: ${user.email})`);
+
+    // Optionally store user data in Firestore or display it in your chat app
+    await updateProfile(user, {
+      displayName: user.displayName,
+      photoURL: user.photoURL || '', // Capture the Google profile picture
+    });
+
+    // Redirect to the second page
     router.push('/secondpage');
   } catch (error) {
     if (error instanceof Error) {
-    console.error('Google sign-in error:', error);
-    alert('Error during Google sign-in: ' + error.message);
+      console.error('Google sign-in error:', error);
+      alert('Error during Google sign-in: ' + error.message);
     }
   }
 };
 </script>
 
+
 <template>
   <div class="form-container my-12 py-8">
     <form  class="dark:text-slate-100 text-slate-800">
-<!--       <label for="firstName" class="block text-sm font-medium leading-6 text-gray-900">First Name</label>
+     <!-- New file input for uploading profile picture -->
+     <label for="profilePic" class="block text-sm font-medium leading-6 text-gray-900">Profile Picture</label>
       <input
-        type="text"
-         class="block flex-1  rounded-sm focus:border-blue-300 border-2 border-solid outline-none bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-2 sm:text-sm sm:leading-6 "
-        name="firstName"
-        v-model="formdata.firstName"
-        placeholder="Enter your first name"
+        type="file"
+        @change="handleFileUpload"
+        class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-300 file:text-blue-700 hover:file:bg-blue-100"
+        accept="image/*"
       />
       <br />
-      <label for="lastName" class="block text-sm font-medium leading-6 text-gray-900">Last Name</label>
+      <label for="displayName" class="block text-sm font-medium leading-6 text-gray-900">Username</label>
       <input
         class="block flex-1  rounded-sm focus:border-blue-300 border-2 border-solid outline-none bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-2 sm:text-sm sm:leading-6"
         type="text"
-        name="lastName"
-        v-model="formdata.lastName"
+        name="displayName"
+        v-model="formdata.displayName"
         placeholder="Enter your last name"
         required
       />
-      <br /> -->
+      <br />
 
       <label for="email" class="block text-sm font-medium leading-6 text-gray-900">E-Mail</label>
       <input
