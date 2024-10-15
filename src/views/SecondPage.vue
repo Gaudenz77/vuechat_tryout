@@ -60,13 +60,13 @@ const handleKeyPress = (event: KeyboardEvent) => {
       <!-- Display the user's profile picture -->
       <img :src="message.userPhotoURL" alt="Profile Picture" v-if="message.userPhotoURL" class="profile-pic" />
 
-            <p class="textChat">
+            <div class="textChat">
               <div class="chat chat-start">
                 <div class="chat-bubble chat-bubble-warning p-4 pe-6">{{ message.text }}
 
                 </div> 
               </div> 
-                <br /><!-- - {{ message.userId }} <br /> -->- <strong>{{ message.userName }}</strong><br /><br /></p>
+                <br /><!-- - {{ message.userId }} <br /> -->- <strong>{{ message.userName }}</strong><br /><br /></div>
             <br /><!-- Display the user's name -->
           </div>
         </div>
