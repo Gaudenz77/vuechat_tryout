@@ -3,6 +3,7 @@ import { ref } from 'vue';
 import ClickYouFate from '../components/ClickYouFate.vue';
 import { useChat } from '../composables/useChat';
 
+
 // Accept user data as a prop
 const props = defineProps<{ user: any }>();
 const { messages, sendMessage } = useChat();
@@ -35,22 +36,37 @@ const handleKeyPress = (event: KeyboardEvent) => {
       </div>
       <div class="w-[80vw] bg-orange-200 rounded-lg shadow-lg mt-8 p-4">
         <h1 class="text-lg text-black text-center">CHATSPACE</h1>
+        <!-- Display logged-in user's profile picture and display name -->
+        <div v-if="props.user" class="flex items-center mb-4">
+          <img v-if="props.user.photoURL" :src="props.user.photoURL" alt="User Profile" class="profile-pic" />
+          <p class="ml-2 text-lg text-black"><strong>{{ props.user.displayName }}</strong></p>
+        </div>
+        
         <form @submit.prevent="handleSendMessage" class="flex flex-col">
+          
           <label for="message">Message:</label>
           <textarea v-model="messageInput" class="w-1/2 rounded-md m-4 p-4 text-slate-100" id="message"
             @keydown.enter="handleKeyPress"></textarea>
           <div class="text-end">
-            <button class="bg-blue-300 rounded-lg py-2 px-4" id="myBtn" type="submit">Send</button>
+            <button class="bg-blue-300 rounded-lg py-2 px-4" id="myBtn" type="submit"><i class="fa-solid fa-paper-plane"></i></button>
           </div>
         </form>
         <div class="bg-slate-100 text-gray-800 rounded-lg p-6 " style="overflow:scroll; height:400px;">
           <h1>Chat Room</h1>
           <div v-for="message in messages" :key="message.id">
+            <div>
+            </div>
             <div class="message-container">
       <!-- Display the user's profile picture -->
       <img :src="message.userPhotoURL" alt="Profile Picture" v-if="message.userPhotoURL" class="profile-pic" />
 
-            <p>{{ message.text }} <br />- {{ message.userId }} <br />- <strong>{{ message.userName }}</strong></p>
+            <p class="textChat">
+              <div class="chat chat-start">
+                <div class="chat-bubble chat-bubble-warning p-4 pe-6">{{ message.text }}
+
+                </div> 
+              </div> 
+                <br /><!-- - {{ message.userId }} <br /> -->- <strong>{{ message.userName }}</strong><br /><br /></p>
             <br /><!-- Display the user's name -->
           </div>
         </div>
@@ -73,4 +89,9 @@ const handleKeyPress = (event: KeyboardEvent) => {
   display: flex;
   align-items: center;
 }
+
+.textChat {
+  white-space: pre
+}
+
 </style>
