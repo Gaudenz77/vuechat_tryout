@@ -47,8 +47,8 @@ onMounted(() => {
 <template>
   <div>
     <div class="flex flex-wrap w-auto justify-center my-4">
-      <div class="sm:w-full md:w-[60vw] h-[8rem] bg-orange-200 rounded-lg shadow-lg p-4 pt-0">
-        <h1 class="sm:text-sm md:text-lg text-black text-center">
+      <div class="sm:w-full md:w-[60vw] h-[9rem] bg-orange-200 rounded-lg shadow-lg p-4 pt-0">
+        <h1 class="sm:text-sm md:text-lg md:font-bold mt-4 text-black text-center">
           Welcome To the Chat-Page
         </h1>
         <ClickYouFate />
@@ -72,14 +72,14 @@ onMounted(() => {
             <!-- Message content -->
             <div class="flex-1">
               <div class="chat chat-start">
-                <div :class="['chat-bubble mt-2 pe-2', message.userId === props.user.uid ? 'chat-bubble-warning' : 'chat-bubble-info']">
+                <div :class="['chat-bubble mt-2 pt-5 pb-4 pe-4', message.userId === props.user.uid ? 'chat-bubble-warning' : 'chat-bubble-info']">
                     {{ message.text }}
                   </div>
                 </div>
             </div>
 
             <!-- Username -->
-            <div class="ml-4 text-gray-600 relative bottom-1">
+            <div class="my-auto me-4">
               <strong>{{ message.userName }}</strong>
               <!-- <strong>{{ message.userId }}</strong> -->
             </div>
@@ -87,10 +87,13 @@ onMounted(() => {
         </div>
 
         <!-- Message input and send button -->
-        <form @submit.prevent="handleSendMessage" class="flex md:flex-row flex-col">
-          <label class="text-lg ms-4" for="message">Message:</label>
+        <form @submit.prevent="handleSendMessage" class="flex md:flex-row flex-col align-center justify-center">
+          <div class="my-auto me-4">
+            <h2 class="text-[1.5rem] font-bold my-auto ms-4" for="message">Message:</h2>
+          </div>
+          
           <textarea v-model="messageInput" class="sm:w-full md:w-1/2 rounded-md mt-4 mx-10 md:mx-0 p-4 text-gray-100 " id="message" @keydown.enter="handleKeyPress"></textarea>
-          <div class="text-center md:text-end mt-0 md:mt-6">
+          <div class="text-center md:text-end mt-0 md:mt-6 md:mx-5">
             <button class="btn btn-outline btn-info btn-lg" id="myBtn" type="submit">
               <i class="fa-solid fa-paper-plane"></i>
             </button>
