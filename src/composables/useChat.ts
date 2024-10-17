@@ -33,10 +33,17 @@
     const loadMessages = () => {
       const messagesQuery = query(messagesCollection, orderBy('createdAt', 'asc'));
       onSnapshot(messagesQuery, (snapshot) => {
-        messages.value = snapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        })) as Message[];
+        messages.value = snapshot.docs.map((doc) => {
+          const data = doc.data();
+          return {
+            id: doc.id,
+            userName: data.userName,
+            userPhotoURL: data.userPhotoURL,
+            userId: data.userId,
+            text: data.text,
+            createdAt: data.createdAt ? data.createdAt.toDate() : null, // Convert Firestore timestamp to Date
+          };
+        }) as Message[];
       });
     };
     loadMessages();

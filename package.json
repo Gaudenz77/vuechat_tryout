@@ -21,7 +21,8 @@
     "path-to-regexp": "^8.2.0",
     "snyk": "^1.1293.1",
     "vue": "^3.4.21",
-    "vue-router": "^4.4.5"
+    "vue-router": "^4.4.5",
+    "vue3-emoji-picker": "^1.1.8"
   },
   "devDependencies": {
     "@types/axios": "^0.14.0",

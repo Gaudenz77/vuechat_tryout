@@ -5,6 +5,7 @@ import App from './App.vue';
 import router from './router'; // Import the router
 import { initializeApp } from 'firebase/app'; // Import from 'firebase/app' for frontend use
 import { getFirestore } from 'firebase/firestore'; // Import Firestore
+import { getMessaging } from "firebase/messaging";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -23,6 +24,9 @@ const app = initializeApp(firebaseConfig);
 // Initialize Firestore
 const db = getFirestore(app);
 
+// Initialize Firebase Cloud Messaging and get a reference to the service
+const messaging = getMessaging(app);
+
 // Create the Vue application
 const vueApp = createApp(App);
 
@@ -34,3 +38,6 @@ vueApp.mount('#app');
 
 // Export the Firestore instance for use in other files
 export { db };
+
+// Export the Firestore instance for use in other files
+export { messaging };
