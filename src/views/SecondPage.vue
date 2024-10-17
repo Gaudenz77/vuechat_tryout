@@ -11,14 +11,15 @@ const messageInput = ref("");
 const onSelectEmoji = (emoji: any) => {
   console.log("Selected emoji object:", emoji); // Log for debugging
 
-  // Use the 'i' property to get the actual emoji character
   if (emoji.i) {
     messageInput.value += emoji.i; // Append the selected emoji to the input message
-    window.location.href = "#"; // Close the modal after selecting an emoji
+    // Instead of setting href, use history API to close the modal correctly
+    window.history.pushState(null, '', window.location.pathname); 
   } else {
     console.error("Selected emoji is undefined or has no recognizable property for the emoji character.");
   }
 };
+
 
 
 // Accept user data as a prop
@@ -36,11 +37,16 @@ const handleSendMessage = () => {
 
 // Handle Enter key press for sending the message
 const handleKeyPress = (event: KeyboardEvent) => {
+  // Ensure Enter key doesn't work inside the emoji picker
   if (event.key === "Enter" && !event.shiftKey) {
-    event.preventDefault(); // Prevent default form submission on Enter
-    handleSendMessage(); // Send message
+    event.preventDefault(); // Prevent default form submission
+    // Check if modal is open, if so, prevent message sending
+    if (window.location.hash !== "#emoji_modal") {
+      handleSendMessage(); // Send message only if emoji modal is not active
+    }
   }
 };
+
 
 // Scroll to bottom function
 const scrollToBottom = () => {
@@ -111,12 +117,11 @@ onMounted(() => {
             <a style="position:relative;right:3rem;top:2rem;color:red;" href="#emoji_modal" class=""><i class="fa-solid fa-face-grin-squint-tears text-orange-500 fa-2x"></i></a>
 
            <!-- Emoji Picker Modal -->
-          <div class="modal" role="dialog" id="emoji_modal">
-            <div class="modal-box">
-              <h3 class="text-lg font-bold">Select an Emoji</h3>
-              <EmojiPicker :native="true" @select="onSelectEmoji" />
+          <div class="modal none" role="dialog" id="emoji_modal">
+            <div class="">
+              <EmojiPicker :native="false" @select="onSelectEmoji" />
               <div class="modal-action">
-                <a href="#" class="btn">Done</a>
+                <a href="#" class="btn"><i class="fa-solid fa-xmark"></i></a>
               </div>
             </div>
           </div>
@@ -166,4 +171,10 @@ onMounted(() => {
   background-color: red;;
 
 } */
+
+
+ .modal-action {
+  position: relative;
+  bottom: 3rem;
+ }
 </style>
