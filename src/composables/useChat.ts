@@ -7,8 +7,6 @@ import {
   query,
   orderBy,
   serverTimestamp,
-  getDoc,
-  doc,
 } from "firebase/firestore";
 
 interface Message {

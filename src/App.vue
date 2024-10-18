@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { onMounted, ref, defineComponent, computed } from 'vue';
+import { onMounted, ref } from 'vue';
 import { getAuth, onAuthStateChanged, setPersistence, browserSessionPersistence, signOut } from 'firebase/auth';
 import { useRouter } from 'vue-router';
 import ThemeToggle from './components/ThemeToggle.vue';
-import { getFirestore, doc, setDoc, updateDoc } from 'firebase/firestore';
+import { getFirestore, doc, updateDoc } from 'firebase/firestore';
 
 
 const currentYear = ref(new Date().getFullYear());

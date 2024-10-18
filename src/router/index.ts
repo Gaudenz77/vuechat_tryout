@@ -42,6 +42,7 @@ const router = createRouter({
   routes,
 });
 
+// @ts-ignore
 router.beforeEach((to, from, next) => {
   const requiresAuth = to.matched.some((record) => record.meta.requiresAuth);
   const auth = getAuth();
@@ -59,5 +60,6 @@ router.beforeEach((to, from, next) => {
     next(); // If the route doesn't require authentication, allow access
   }
 });
+
 
 export default router;

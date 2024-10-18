@@ -43,7 +43,7 @@ export default {
           aliquid perferendis voluptatibus, autem blanditiis sequi facere culpa aut aperiam quisquam accusamus
           cupiditate, modi pariatur inventore?</p>
         <a href="https://vuejs.org/" target="_blank">
-          <img src="./assets/vue.svg" class="logo w-16" alt="Vue logo" />
+        
         </a>
       </div>
     </div>
