@@ -1,3 +1,9 @@
+<script>
+export default {
+  name: 'About',
+}
+</script>
+
 <template>
   <div class="my-4">
     <h1>About Page</h1>
@@ -21,12 +27,6 @@
     </div>
   </div>
 </template>
-
-<script>
-export default {
-  name: 'About',
-}
-</script>
 
 <style>
 /* 

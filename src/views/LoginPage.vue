@@ -1,5 +1,4 @@
 <script>
-
 import FormTwo from '../components/FormTwo.vue'
 
 export default {
@@ -19,6 +18,5 @@ export default {
         <div class="">
             <FormTwo />
         </div>
-        
     </div>
 </template>

@@ -100,54 +100,40 @@ const signInWithGoogle = async (event: Event) => {
 
 <template>
   <div class="form-container my-12 py-8">
-    <form  class="dark:text-slate-100 text-slate-800">
-     <!-- New file input for uploading profile picture -->
-     <label for="profilePic" class="block text-sm font-medium leading-6 text-gray-900">Profile Picture</label>
-      <input
-        type="file"
-        @change="handleFileUpload"
+    <form class="dark:text-slate-100 text-slate-800">
+      <!-- New file input for uploading profile picture -->
+      <label for="profilePic" class="block text-sm font-medium leading-6 text-gray-900">Profile Picture</label>
+      <input type="file" @change="handleFileUpload"
         class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-300 file:text-blue-700 hover:file:bg-blue-100"
-        accept="image/*"
-      />
+        accept="image/*" />
       <br />
       <label for="displayName" class="block text-sm font-medium leading-6 text-gray-900">Username</label>
       <input
         class="block flex-1  rounded-sm focus:border-blue-300 border-2 border-solid outline-none bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-2 sm:text-sm sm:leading-6"
-        type="text"
-        name="displayName"
-        v-model="formdata.displayName"
-        placeholder="Enter your last name"
-        required
-      />
+        type="text" name="displayName" v-model="formdata.displayName" placeholder="Enter your last name" required />
       <br />
 
       <label for="email" class="block text-sm font-medium leading-6 text-gray-900">E-Mail</label>
       <input
-         class="block flex-1  rounded-sm focus:border-blue-300 border-2 border-solid outline-none bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-2 sm:text-sm sm:leading-6"
-        type="email"
-        name="email"
-        v-model="formdata.email"
-        placeholder="Enter your e-mail address"
-        required
-      />
+        class="block flex-1  rounded-sm focus:border-blue-300 border-2 border-solid outline-none bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-2 sm:text-sm sm:leading-6"
+        type="email" name="email" v-model="formdata.email" placeholder="Enter your e-mail address" required />
       <br />
 
       <label for="password" class="block text-sm font-medium leading-6 text-gray-900">Password</label>
       <input
-         class="block flex-1  rounded-sm focus:border-blue-300 border-2 border-solid outline-none bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-2 sm:text-sm sm:leading-6"
-        type="password"
-        name="password"
-        v-model="formdata.password"
-        placeholder="Enter your password"
-        required
-      />
+        class="block flex-1  rounded-sm focus:border-blue-300 border-2 border-solid outline-none bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-2 sm:text-sm sm:leading-6"
+        type="password" name="password" v-model="formdata.password" placeholder="Enter your password" required />
       <br />
 
       <div class="text-center">
-        <button class="rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold  border-2 focus:border-green-500 outline-none text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50" type="submit" @click="register">Sign In</button>
-        <button class="rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold  border-2 focus:border-green-500 outline-none text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50" type="submit" @click="signInWithGoogle">Sign In With Google</button>
+        <button
+          class="rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold  border-2 focus:border-green-500 outline-none text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
+          type="submit" @click="register">Sign In</button>
+        <button
+          class="rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold  border-2 focus:border-green-500 outline-none text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
+          type="submit" @click="signInWithGoogle">Sign In With Google</button>
       </div>
-     
+
     </form>
   </div>
 </template>

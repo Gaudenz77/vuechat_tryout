@@ -1,5 +1,4 @@
 <script>
-
 import FormOne from '../components/FormOne.vue'
 
 export default {
@@ -17,7 +16,7 @@ export default {
     </div>
     <div class="flex flex-wrap justify-center items-center">
         <div class="">
-        <FormOne />
+            <FormOne />
         </div>
     </div>
 </template>

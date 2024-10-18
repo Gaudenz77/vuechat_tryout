@@ -1,10 +1,10 @@
 // src/main.ts
-import { createApp } from 'vue';
-import './index.css';
-import App from './App.vue';
-import router from './router'; // Import the router
-import { initializeApp } from 'firebase/app'; // Import from 'firebase/app' for frontend use
-import { getFirestore } from 'firebase/firestore'; // Import Firestore
+import { createApp } from "vue";
+import "./index.css";
+import App from "./App.vue";
+import router from "./router"; // Import the router
+import { initializeApp } from "firebase/app"; // Import from 'firebase/app' for frontend use
+import { getFirestore } from "firebase/firestore"; // Import Firestore
 import { getMessaging } from "firebase/messaging";
 
 // Your web app's Firebase configuration
@@ -15,7 +15,7 @@ const firebaseConfig = {
   storageBucket: import.meta.env.VITE_STORAGE_BUCKET,
   messagingSenderId: import.meta.env.VITE_MESSAGING_SENDER_ID,
   appId: import.meta.env.VITE_APP_ID,
-  measurementId: import.meta.env.VITE_MEASUREMENT_ID
+  measurementId: import.meta.env.VITE_MEASUREMENT_ID,
 };
 
 // Initialize Firebase
@@ -34,7 +34,7 @@ const vueApp = createApp(App);
 vueApp.use(router);
 
 // Mount the app
-vueApp.mount('#app');
+vueApp.mount("#app");
 
 // Export the Firestore instance for use in other files
 export { db };
