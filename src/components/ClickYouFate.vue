@@ -80,7 +80,7 @@ export default defineComponent({
       <!-- This is reactive and will update automatically -->
     </div>
     <!-- Buttons container -->
-    <div class="flex justify-center space-x-4">
+    <div class="flex flex-wrap justify-center space-x-4 gap-4">
       <button @click="startCycling" class="px-4 py-2 bg-blue-500 text-white rounded">
         Start
       </button>

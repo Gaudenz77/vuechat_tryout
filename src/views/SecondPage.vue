@@ -105,7 +105,7 @@ onMounted(() => {
           <div class="flex-1">
             <div class="chat chat-start">
               <div
-                :class="['chat-bubble mt-2 pt-3 pb-4 pe-4', message.userId === props.user.uid ? 'chat-bubble-warning' : 'chat-bubble-info']">
+                :class="['chat-bubble mt-2 pt-3 pb-4 pe-4 w-full md:w-1/2 ', message.userId === props.user.uid ? 'chat-bubble-warning' : 'chat-bubble-info']">
                 <div class="my-auto me-4 text-sm mb-4">
                   <strong>{{ message.userName }}:</strong>
                 </div>

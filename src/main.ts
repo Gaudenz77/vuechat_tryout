@@ -6,6 +6,9 @@ import router from "./router"; // Import the router
 import { initializeApp } from "firebase/app"; // Import from 'firebase/app' for frontend use
 import { getFirestore } from "firebase/firestore"; // Import Firestore
 import { getMessaging } from "firebase/messaging";
+import { initializeAppCheck, ReCaptchaV3Provider } from "firebase/app-check";
+
+
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -20,6 +23,15 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
+
+// Initialize App Check with reCAPTCHA v3
+const appCheck = initializeAppCheck(app, {
+  provider: new ReCaptchaV3Provider('abcdefghijklmnopqrstuvwxy-1234567890abcd'),
+  
+  // Automatically refresh App Check tokens as needed
+  isTokenAutoRefreshEnabled: true,
+});
+
 
 // Initialize Firestore
 const db = getFirestore(app);
