@@ -126,10 +126,10 @@ onMounted(() => {
 
         <!-- Emoji Picker Button -->
         <a href="#emoji_modal" class="text-orange-500 text-2xl mt-4 md:mt-0 md:ml-4"><i
-            class="fa-solid fa-face-grin-squint-tears"></i></a>
+            class=" fa-solid fa-face-grin-squint-tears fa-spin text-orange-800  hover:text-red-500"></i></a>
 
         <!-- Send Button -->
-        <button type="submit" aria-label="Send message" class="btn btn-warning md:ml-4 mt-4 md:mt-0">
+        <button type="submit" aria-label="Send message" class="btn btn-success md:ml-4 mt-4 md:mt-0">
           <i class="fa-solid fa-paper-plane"></i>
         </button>
       </form>

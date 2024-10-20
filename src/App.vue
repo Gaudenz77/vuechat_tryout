@@ -12,7 +12,7 @@ const user = ref<any>(null);
 const isLoggedIn = ref(false);
 const auth = getAuth();
 const router = useRouter();
-const db = getFirestore();
+const db = getFirestore(); 
 
 onMounted(() => {
   setPersistence(auth, browserSessionPersistence)
@@ -50,7 +50,7 @@ const handleSignout = async () => {
 
 <template>
   <header>
-    <div class="navbar bg-base-100 dark:bg-zinc-100">
+    <div class="navbar bg-base-100 dark:bg-[#010831] dark:text-white text-black">
       <div class="flex-1">
         <a class="btn btn-ghost text-xl">daisyUI</a>
       </div>
@@ -88,7 +88,7 @@ const handleSignout = async () => {
     <router-view :user="auth.currentUser"></router-view><!-- Displays the active component -->
   </section>
 
-  <footer class="footer bg-neutral text-neutral-content items-center p-4 fixed bottom-0">
+  <footer class="footer bg-neutral dark:bg-[#fff248] dark:text-[##010831] items-center p-4 fixed bottom-0">
     <aside class="grid-flow-col items-center">
       <svg width="36" height="36" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd"
         clip-rule="evenodd" class="fill-current">
