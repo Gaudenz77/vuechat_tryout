@@ -53,3 +53,6 @@ export { db };
 
 // Export the Firestore instance for use in other files
 export { messaging };
+
+// Export the Firestore instance for use in other files
+export { appCheck };

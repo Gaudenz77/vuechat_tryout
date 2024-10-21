@@ -17,19 +17,25 @@ const db = getFirestore();
 onMounted(() => {
   setPersistence(auth, browserSessionPersistence)
     .then(() => {
-      onAuthStateChanged(auth, (currentUser) => {
-        if (currentUser) {
-          isLoggedIn.value = true;
-          user.value = {
-            displayName: currentUser.displayName,
-            photoURL: currentUser.photoURL,
-            uid: currentUser.uid,
-          };
-        } else {
-          isLoggedIn.value = false;
-          user.value = null; // Clear the user info when logged out
-        }
-      });
+      onAuthStateChanged(auth, async (currentUser) => {
+  if (currentUser) {
+    isLoggedIn.value = true;
+    user.value = {
+      displayName: currentUser.displayName,
+      photoURL: currentUser.photoURL,
+      uid: currentUser.uid,
+    };
+    const userRef = doc(db, 'users', currentUser.uid);
+    await updateDoc(userRef, { status: 'online' });
+  } else {
+    isLoggedIn.value = false;
+    if (user.value) {
+      const userRef = doc(db, 'users', user.value.uid);
+      await updateDoc(userRef, { status: 'offline' });
+    }
+    user.value = null;
+  }
+});
     })
     .catch((error) => {
       console.error('Error setting session persistence:', error);
@@ -85,7 +91,7 @@ const handleSignout = async () => {
   
   <section class="main container-fluid mx-24">
     <!-- Pass user data to SecondPage -->
-    <router-view :user="auth.currentUser"></router-view><!-- Displays the active component -->
+    <router-view :user="user"></router-view><!-- Displays the active component -->
   </section>
 
   <footer class="footer bg-neutral dark:bg-[#fff248] dark:text-[##010831] items-center p-4 fixed bottom-0">

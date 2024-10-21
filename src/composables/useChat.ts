@@ -25,18 +25,19 @@ export function useChat() {
   const sendMessage = async (text: string, user: any) => {
     if (!user) return;
     const { uid, photoURL, displayName } = user;
-    // Fetch the user's displayName from Firestore
-    /* const userDoc = await getDoc(doc(db, 'users', uid));
-      const displayName = userDoc.exists() ? userDoc.data().displayName : 'Anonymous'; */
-
-    await addDoc(messagesCollection, {
-      userName: displayName,
-      userPhotoURL: photoURL,
-      userId: uid,
-      text: text,
-      createdAt: serverTimestamp(),
-    });
+    try {
+      await addDoc(messagesCollection, {
+        userName: displayName || 'Anonymous',
+        userPhotoURL: photoURL || '', // Handle undefined photo URLs
+        userId: uid,
+        text: text,
+        createdAt: serverTimestamp(),
+      });
+    } catch (error) {
+      console.error('Error sending message:', error);
+    }
   };
+  
   const loadMessages = () => {
     const messagesQuery = query(
       messagesCollection,
@@ -51,7 +52,8 @@ export function useChat() {
           userPhotoURL: data.userPhotoURL,
           userId: data.userId,
           text: data.text,
-          createdAt: data.createdAt ? data.createdAt.toDate() : null, // Convert Firestore timestamp to Date
+          createdAt: data.createdAt ? data.createdAt.toDate() : new Date() // Fallback to current date
+
         };
       }) as Message[];
     });
