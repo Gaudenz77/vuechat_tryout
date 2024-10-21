@@ -33,8 +33,9 @@ onMounted(() => {
   const q = query(collection(db, 'users'), where('status', '==', 'online'));
 
   onSnapshot(q, (querySnapshot) => {
-    onlineUsers.value = querySnapshot.docs.map((doc) => doc.data() as User);
-  });
+  console.log("User querySnapshot", querySnapshot.docs.map((doc) => doc.data())); // Check the data
+  onlineUsers.value = querySnapshot.docs.map((doc) => doc.data() as User);
+});
 });
 
 // Props for receiving user data

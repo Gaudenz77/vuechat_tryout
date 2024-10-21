@@ -59,7 +59,7 @@ router.beforeEach((to, from, next) => {
   } else {
     next(); // If the route doesn't require authentication, allow access
   }
-});
+}); 
 
 
 export default router;
