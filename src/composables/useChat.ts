@@ -5,6 +5,7 @@ import {
   addDoc,
   onSnapshot,
   query,
+  where, // Import the where function
   orderBy,
   serverTimestamp,
 } from "firebase/firestore";
@@ -21,6 +22,7 @@ interface Message {
 export function useChat() {
   const messages = ref<Message[]>([]);
   const messagesCollection = collection(db, "messages");
+
   // Function to send a message with displayName from Firestore
   const sendMessage = async (text: string, user: any) => {
     if (!user) return;
@@ -39,10 +41,17 @@ export function useChat() {
   };
   
   const loadMessages = () => {
+    // Calculate the date for 7 days ago
+    const oneWeekAgo = new Date();
+    oneWeekAgo.setDate(oneWeekAgo.getDate() - 2);
+
+    // Query to load messages from the last 7 days
     const messagesQuery = query(
       messagesCollection,
+      where("createdAt", ">=", oneWeekAgo), // Filter messages from the past 7 days
       orderBy("createdAt", "asc")
     );
+
     onSnapshot(messagesQuery, (snapshot) => {
       messages.value = snapshot.docs.map((doc) => {
         const data = doc.data();
@@ -53,11 +62,11 @@ export function useChat() {
           userId: data.userId,
           text: data.text,
           createdAt: data.createdAt ? data.createdAt.toDate() : new Date() // Fallback to current date
-
         };
       }) as Message[];
     });
   };
+
   loadMessages();
   return { messages, sendMessage };
 }

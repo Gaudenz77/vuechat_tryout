@@ -131,7 +131,7 @@ const signInWithGoogle = async (event: Event) => {
           type="submit" @click="register">Sign In</button>
         <button
           class="rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold  border-2 focus:border-green-500 outline-none text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
-          type="submit" @click="signInWithGoogle">Sign In With Google</button>
+          type="button" @click="signInWithGoogle">Sign In With Google</button>
       </div>
 
     </form>

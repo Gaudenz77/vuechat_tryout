@@ -6,7 +6,7 @@ import EmojiPicker from 'vue3-emoji-picker';
 import 'vue3-emoji-picker/css';
 import { getFirestore, collection, query, where, onSnapshot } from 'firebase/firestore';
 
- import "emoji-mart-vue-fast/css/emoji-mart.css";
+/* import "emoji-mart-vue-fast/css/emoji-mart.css"; */
 
 // Define the user type
 interface User {
@@ -101,7 +101,7 @@ onMounted(() => {
       <h1 class="text-lg font-bold dark:text-black text-white mb-4 text-center">CHATSPACE</h1>
 
       <!-- Chat messages container -->
-      <div ref="chatContainer" class="flex-1 bg-slate-100 text-gray-800 rounded-lg p-4 overflow-y-auto">
+      <div ref="chatContainer" class="flex-1 bg-blue-950 dark:bg-yellow-300 text-gray-800 rounded-lg p-4 overflow-y-auto">
         <div v-for="message in messages" :key="message.id" class="w-full flex items-start mb-4">
           <img :src="message.userPhotoURL" alt="Profile Picture" v-if="message.userPhotoURL"
             class="profile-pic my-auto" />
@@ -124,7 +124,7 @@ onMounted(() => {
       <!-- Message input and send button -->
       <form @submit.prevent="handleSendMessage" class="flex flex-col md:flex-row items-center mt-4">
         <!-- Textarea for message input -->
-        <textarea v-model="messageInput" class="w-full md:w-3/4 rounded-md p-4 text-gray-100 bg-slate-800 resize-none"
+        <textarea v-model="messageInput" class="w-full md:w-3/4 rounded-md p-4 text-gray-100 dark:bg-slate-800 resize-none"
           id="message" @keydown.enter="handleKeyPress" placeholder="Type your message..."></textarea>
 
         <!-- Emoji Picker Button -->
