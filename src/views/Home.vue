@@ -1,14 +1,9 @@
 <script>
-import ThemeToggle from '../components/ThemeToggle.vue'
-import RangeSlider from '../components/RangeSlider.vue'
-
-
 export default {
   name: 'Home',
   components: {
-    ThemeToggle,
-    RangeSlider,
-
+    ThemeToggle: () => import('../components/ThemeToggle.vue'), // Dynamically import ThemeToggle
+    RangeSlider: () => import('../components/RangeSlider.vue'), // Dynamically import RangeSlider
   }
 }
 </script>

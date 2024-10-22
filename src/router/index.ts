@@ -1,10 +1,12 @@
 import { createRouter, createWebHistory } from "vue-router";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import Home from "../views/Home.vue";
-import SecondPage from "../views/SecondPage.vue";
-import LoginPage from "../views/LoginPage.vue";
-import RegisterPage from "../views/RegisterPage.vue";
-import About from "../views/About.vue";
+
+// Use dynamic imports for views to enable code-splitting
+const Home = () => import("../views/Home.vue");
+const SecondPage = () => import("../views/SecondPage.vue");
+const LoginPage = () => import("../views/LoginPage.vue");
+const RegisterPage = () => import("../views/RegisterPage.vue");
+const About = () => import("../views/About.vue");
 
 const routes = [
   {
@@ -42,24 +44,23 @@ const router = createRouter({
   routes,
 });
 
-// @ts-ignore
-router.beforeEach((to, from, next) => {
+// Add route guard to check for authentication before accessing protected routes
+router.beforeEach((to, _from, next) => {
   const requiresAuth = to.matched.some((record) => record.meta.requiresAuth);
   const auth = getAuth();
 
   if (requiresAuth) {
     onAuthStateChanged(auth, (user) => {
       if (user) {
-        next(); // If the user is authenticated, allow access to the route
+        next(); // User is authenticated, allow access
       } else {
         alert("You do not have access to this page. Please log in.");
         next("/login"); // Redirect to login if not authenticated
       }
     });
   } else {
-    next(); // If the route doesn't require authentication, allow access
+    next(); // No authentication required, allow access
   }
-}); 
-
+});
 
 export default router;
