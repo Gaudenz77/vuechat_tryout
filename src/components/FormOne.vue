@@ -109,19 +109,19 @@ const signInWithGoogle = async (event: Event) => {
       <br />
       <label for="displayName" class="block text-sm font-medium leading-6 text-gray-900">Username</label>
       <input
-        class="block flex-1  rounded-sm focus:border-blue-300 border-2 border-solid outline-none bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-2 sm:text-sm sm:leading-6"
+        class="block flex-1 w-full rounded-sm focus:border-blue-300 border-2 border-solid outline-none bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-2 sm:text-sm sm:leading-6"
         type="text" name="displayName" v-model="formdata.displayName" placeholder="Enter your last name" required />
       <br />
 
       <label for="email" class="block text-sm font-medium leading-6 text-gray-900">E-Mail</label>
       <input
-        class="block flex-1  rounded-sm focus:border-blue-300 border-2 border-solid outline-none bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-2 sm:text-sm sm:leading-6"
+        class="block flex-1 w-full rounded-sm focus:border-blue-300 border-2 border-solid outline-none bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-2 sm:text-sm sm:leading-6"
         type="email" name="email" v-model="formdata.email" placeholder="Enter your e-mail address" required />
       <br />
 
       <label for="password" class="block text-sm font-medium leading-6 text-gray-900">Password</label>
       <input
-        class="block flex-1  rounded-sm focus:border-blue-300 border-2 border-solid outline-none bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-2 sm:text-sm sm:leading-6"
+        class="block flex-1 w-full rounded-sm focus:border-blue-300 border-2 border-solid outline-none bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-2 sm:text-sm sm:leading-6"
         type="password" name="password" v-model="formdata.password" placeholder="Enter your password" required />
       <br />
 

@@ -6,6 +6,8 @@ import EmojiPicker from 'vue3-emoji-picker';
 import 'vue3-emoji-picker/css';
 import { getFirestore, collection, query, where, onSnapshot } from 'firebase/firestore';
 
+ import "emoji-mart-vue-fast/css/emoji-mart.css";
+
 // Define the user type
 interface User {
   uid: string;
@@ -83,11 +85,11 @@ onMounted(() => {
 <template>
   <div class="flex flex-col md:flex-row w-full h-[80vh] my-4">
     <!-- Online Users Column -->
-    <div class="w-full md:w-1/4 bg-orange-200 mb-4 md:mb-0 p-4 rounded-lg shadow-lg overflow-y-auto">
-      <h2 class="text-lg font-bold text-black mb-4">Online Users</h2>
+    <div class="w-full md:w-1/4 dark:bg-yellow-300 bg-blue-950 mb-4 md:mb-0 p-4 rounded-lg shadow-lg overflow-y-auto">
+      <h2 class="text-lg font-bold dark:text-black text-white mb-4">Online Users</h2>
       <div v-for="user in onlineUsers" :key="user.uid" class="flex items-center mb-4">
         <img v-if="user.photoURL" :src="user.photoURL" alt="User Profile" class="profile-pic" />
-        <p class="ml-2 text-lg text-black"><strong>{{ user.displayName }}</strong></p>
+        <p class="ml-2 text-lg dark:text-black text-white"><strong>{{ user.displayName }}</strong></p>
       </div>
       <div class="">
           <ClickYouFate />
@@ -95,8 +97,8 @@ onMounted(() => {
     </div>
 
     <!-- Chatbox Area (3/4 of the screen) -->
-    <div class="w-full md:w-3/4 flex flex-col bg-orange-200 p-4 rounded-lg shadow-lg md:ml-4 h-4/5 md:h-full">
-      <h1 class="text-lg font-bold text-black mb-4 text-center">CHATSPACE</h1>
+    <div class="w-full md:w-3/4 flex flex-col dark:bg-yellow-300 bg-blue-950 p-4 rounded-lg shadow-lg md:ml-4 h-4/5 md:h-full">
+      <h1 class="text-lg font-bold dark:text-black text-white mb-4 text-center">CHATSPACE</h1>
 
       <!-- Chat messages container -->
       <div ref="chatContainer" class="flex-1 bg-slate-100 text-gray-800 rounded-lg p-4 overflow-y-auto">
@@ -126,11 +128,11 @@ onMounted(() => {
           id="message" @keydown.enter="handleKeyPress" placeholder="Type your message..."></textarea>
 
         <!-- Emoji Picker Button -->
-        <a href="#emoji_modal" class="text-orange-500 text-2xl mt-4 md:mt-0 md:ml-4"><i
+        <a href="#emoji_modal" class="text-orange-500 text-2xl mt-4 md:mt-0 md:ml-4 p-3 rounded-full"><i
             class=" fa-solid fa-face-grin-squint-tears fa-spin text-orange-800  hover:text-red-500"></i></a>
 
         <!-- Send Button -->
-        <button type="submit" aria-label="Send message" class="btn btn-success md:ml-4 mt-4 md:mt-0">
+        <button type="submit" aria-label="Send message" class="btn btn-success rounded-full md:ml-4 mt-4 md:mt-0">
           <i class="fa-solid fa-paper-plane"></i>
         </button>
       </form>

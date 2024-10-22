@@ -58,7 +58,7 @@ const handleSignout = async () => {
   <header>
     <div class="navbar bg-base-100 dark:bg-[#010831] dark:text-white text-black">
       <div class="flex-1">
-        <a class="btn btn-ghost text-xl">daisyUI</a>
+        <a class="btn btn-ghost text-xl">CHat-CHannel-SWITZERLAND</a>
       </div>
       <div class="">
         <ul class="flex flex-wrap align-middle gap-4 pt-4">
@@ -69,7 +69,7 @@ const handleSignout = async () => {
           <li><a><router-link to="/register" v-if="!isLoggedIn">Register</router-link></a></li>
           <li><a> <!-- Show Sign Out button only if the user is logged in -->
               <div class="relative bottom-[0.5rem]">
-                <button class="dark:bg-pink-900 dark:text-slate-100 bg-emerald-800 text-slate-100 px-4 py-2 rounded-lg"
+                <button class="dark:bg-success dark:text-slate-100 bg-error text-slate-100 px-4 py-2 rounded-lg"
                   @click="handleSignout" v-if="isLoggedIn">
                   Sign Out
                 </button>
@@ -89,12 +89,12 @@ const handleSignout = async () => {
     </div>
   </header>
   
-  <section class="main container-fluid mx-24">
+  <section class="main container-fluid mx-0 md:mx-24">
     <!-- Pass user data to SecondPage -->
     <router-view :user="user"></router-view><!-- Displays the active component -->
   </section>
 
-  <footer class="footer bg-neutral dark:bg-[#fff248] dark:text-[##010831] items-center p-4 fixed bottom-0">
+  <footer class="footer hidden md:block bg-neutral dark:bg-[#fff248] dark:text-[##010831] items-center p-4 fixed bottom-0">
     <aside class="grid-flow-col items-center">
       <svg width="36" height="36" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd"
         clip-rule="evenodd" class="fill-current">
