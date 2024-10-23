@@ -120,22 +120,37 @@ onMounted(() => {
           </div>
         </div>
       </div>
+<!-- Message input and send button -->
+<form @submit.prevent="handleSendMessage" class="flex items-center mt-4 w-full">
+  <!-- Textarea for message input -->
+  <div class="relative flex-1">
+    <textarea v-model="messageInput"
+      class="w-full pr-16 rounded-md p-4 dark:text-gray-100 bg-slate-800 resize-none"
+      id="message" @keydown.enter="handleKeyPress" placeholder="Type your message..."></textarea>
 
-      <!-- Message input and send button -->
-      <form @submit.prevent="handleSendMessage" class="flex flex-col md:flex-row items-center mt-4">
-        <!-- Textarea for message input -->
-        <textarea v-model="messageInput" class="w-full md:w-3/4 rounded-md p-4 text-gray-100 dark:bg-slate-800 resize-none"
-          id="message" @keydown.enter="handleKeyPress" placeholder="Type your message..."></textarea>
+    <!-- Buttons inside the textarea container (positioned to the right) -->
+    <div class="absolute right-2 top-2 flex space-x-2">
+      <!-- Emoji Picker Button -->
+      <a href="#emoji_modal" class="text-orange-500 text-2xl p-3 rounded-full">
+        <i class="fa-solid fa-face-grin-squint-tears fa-spin text-orange-800 hover:text-red-500"></i>
+      </a>
 
-        <!-- Emoji Picker Button -->
-        <a href="#emoji_modal" class="text-orange-500 text-2xl mt-4 md:mt-0 md:ml-4 p-3 rounded-full"><i
-            class=" fa-solid fa-face-grin-squint-tears fa-spin text-orange-800  hover:text-red-500"></i></a>
+      <!-- Send Button -->
+      <button type="submit" aria-label="Send message" class="btn btn-success rounded-full">
+        <i class="fa-solid fa-paper-plane"></i>
+      </button>
+    </div>
+  </div>
+</form>
 
-        <!-- Send Button -->
-        <button type="submit" aria-label="Send message" class="btn btn-success rounded-full md:ml-4 mt-4 md:mt-0">
-          <i class="fa-solid fa-paper-plane"></i>
-        </button>
-      </form>
+<!-- Emoji Picker Modal -->
+<div id="emoji_modal" class="modal" role="dialog">
+  <EmojiPicker :native="false" @select="onSelectEmoji" />
+  <div class="modal-action">
+    <a href="#" class="btn"><i class="fa-solid fa-xmark"></i></a>
+  </div>
+</div>
+
 
       <!-- Emoji Picker Modal -->
       <div id="emoji_modal" class="modal" role="dialog">
