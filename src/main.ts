@@ -24,13 +24,11 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
-// Initialize App Check with reCAPTCHA v3
 const appCheck = initializeAppCheck(app, {
-  provider: new ReCaptchaV3Provider('abcdefghijklmnopqrstuvwxy-1234567890abcd'),
-  
-  // Automatically refresh App Check tokens as needed
-  isTokenAutoRefreshEnabled: true,
+    provider: new ReCaptchaV3Provider(import.meta.env.VITE_RECAPTCHA_SITE_KEY),
+    isTokenAutoRefreshEnabled: false
 });
+
 
 
 // Initialize Firestore
