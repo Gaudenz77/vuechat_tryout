@@ -12,10 +12,10 @@ export default {
   <div class="flex flex-wrap w-full justify-center my-4 dark:bg-yellow-300 bg-blue-950 rounded-lg px-4 py-2">
 <!-- Left div for image (1/3 width on small and above screens) -->
     <div class="sm:w-1/3 w-full mb-4 sm:mb-0">
-      <img src="https://via.placeholder.com/300" alt="Placeholder Image" class="w-full h-auto object-cover rounded-md  sm:m-2 md:m-4  sm:p-2 md:p-4" />
+      <img src="../../public/assets/img/hero_01.png" alt="Placeholder Image" class="w-full h-auto object-cover rounded-md  sm:m-2 md:m-4  sm:p-2 md:p-4" />
     </div>
     <!-- Right div for text (2/3 width on small and above screens) -->
-    <div class="sm:w-2/3 w-full px-8">
+    <div class="sm:w-2/3 w-full mt-8 px-8">
       <div class="text-[1.5rem] font-bold dark:text-black text-white ">
         <h1>Home Page</h1>
         <p class="">Welcome to the home page!</p>
