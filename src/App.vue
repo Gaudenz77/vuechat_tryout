@@ -56,37 +56,61 @@ const handleSignout = async () => {
 
 <template>
   <header>
-    <div class="navbar bg-base-100 dark:bg-[#010831] dark:text-white text-black">
-      <div class="flex-1">
-        <a class="btn btn-ghost text-xl">CHat-CHannel-SWITZERLAND</a>
+    <div class="navbar dark:bg-[#fff248] bg-[#111a3b]">
+  <div class="navbar-start">
+    <div class="dropdown">
+      <div tabindex="0" role="button" class="btn btn-ghost lg:hidden">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-5 w-5"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor">
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M4 6h16M4 12h8m-8 6h16" />
+        </svg>
+      </div>
+      <ul
+        tabindex="0"
+        class="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
+        <li><a><router-link to="/">Home</router-link></a></li>
+        <li><a><router-link to="/secondpage" v-if="isLoggedIn">Second Page</router-link> </a></li>
+        <li><a><router-link to="/about">About</router-link></a></li>
+        <li><a><router-link to="/login" v-if="!isLoggedIn">Login</router-link></a></li>
+        <li><a><router-link to="/register" v-if="!isLoggedIn">Register</router-link></a></li>
+        <li><a>Item 3</a></li>
+      </ul>
+    </div>
+    <a class="btn btn-ghost text-xl">CHat-CHannel-SWITZERLAND</a>
+  </div>
+  <div class="navbar-center hidden lg:flex">
+    <ul class="menu menu-horizontal px-1">
+        <li><a><router-link to="/">Home</router-link></a></li>
+        <li><a><router-link to="/secondpage" v-if="isLoggedIn">Second Page</router-link> </a></li>
+        <li><a><router-link to="/about">About</router-link></a></li>
+        <li><a><router-link to="/login" v-if="!isLoggedIn">Login</router-link></a></li>
+        <li><a><router-link to="/register" v-if="!isLoggedIn">Register</router-link></a></li>
+        
+    </ul>
+  </div>
+  <div class="navbar-end">
+    <div class="mx-4">
+      <button class="dark:bg-success dark:text-slate-100 bg-error text-slate-100 px-4 py-2"
+                @click="handleSignout" v-if="isLoggedIn">
+                Sign Out
+      </button>
       </div>
       <div class="">
-        <ul class="flex flex-wrap align-middle gap-4 pt-4">
-          <li><a><router-link to="/">Home</router-link></a></li>
-          <li><a><router-link to="/secondpage" v-if="isLoggedIn">Second Page</router-link> </a></li>
-          <li><a><router-link to="/about">About</router-link></a></li>
-          <li><a><router-link to="/login" v-if="!isLoggedIn">Login</router-link></a></li>
-          <li><a><router-link to="/register" v-if="!isLoggedIn">Register</router-link></a></li>
-          <li><a> <!-- Show Sign Out button only if the user is logged in -->
-              <div class="relative bottom-[0.5rem]">
-                <button class="dark:bg-success dark:text-slate-100 bg-error text-slate-100 px-4 py-2 rounded-lg"
-                  @click="handleSignout" v-if="isLoggedIn">
-                  Sign Out
-                </button>
-              </div>
-            </a></li>
-          <li><a>
-              <div class="relative bottom-[0.25rem]">
-                <ThemeToggle />
-                <!-- Display the ThemeToggle component -->
-              </div>
-            </a></li>
-        </ul>
-        <div v-if="isLoggedIn && user?.photoURL" class="ml-4">
-          <img :src="user.photoURL" alt="User Profile" class="w-10 h-10 rounded-full" />
-        </div>
+          <ThemeToggle />      
       </div>
-    </div>
+      <div v-if="isLoggedIn && user?.photoURL" class="ml-4">
+          <img :src="user.photoURL" alt="User Profile" class="w-10 h-10 rounded-full" />
+      </div>
+  </div>
+</div>
   </header>
   
   <section class="main container-fluid mx-0 md:mx-24">
@@ -94,7 +118,7 @@ const handleSignout = async () => {
     <router-view :user="user"></router-view><!-- Displays the active component -->
   </section>
 
-  <footer class="footer hidden md:block bg-neutral dark:bg-[#fff248] dark:text-[##010831] items-center p-4 fixed bottom-0">
+  <footer class="footer hidden md:block bg-[#111a3b] dark:bg-[#fff248] dark:text-[##010831] items-center p-4 fixed bottom-0">
     <aside class="grid-flow-col items-center">
       <svg width="36" height="36" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd"
         clip-rule="evenodd" class="fill-current">
@@ -102,9 +126,9 @@ const handleSignout = async () => {
           d="M22.672 15.226l-2.432.811.841 2.515c.33 1.019-.209 2.127-1.23 2.456-1.15.325-2.148-.321-2.463-1.226l-.84-2.518-5.013 1.677.84 2.517c.391 1.203-.434 2.542-1.831 2.542-.88 0-1.601-.564-1.86-1.314l-.842-2.516-2.431.809c-1.135.328-2.145-.317-2.463-1.229-.329-1.018.211-2.127 1.231-2.456l2.432-.809-1.621-4.823-2.432.808c-1.355.384-2.558-.59-2.558-1.839 0-.817.509-1.582 1.327-1.846l2.433-.809-.842-2.515c-.33-1.02.211-2.129 1.232-2.458 1.02-.329 2.13.209 2.461 1.229l.842 2.515 5.011-1.677-.839-2.517c-.403-1.238.484-2.553 1.843-2.553.819 0 1.585.509 1.85 1.326l.841 2.517 2.431-.81c1.02-.33 2.131.211 2.461 1.229.332 1.018-.21 2.126-1.23 2.456l-2.433.809 1.622 4.823 2.433-.809c1.242-.401 2.557.484 2.557 1.838 0 .819-.51 1.583-1.328 1.847m-8.992-6.428l-5.01 1.675 1.619 4.828 5.011-1.674-1.62-4.829z">
         </path>
       </svg>
-      <p class="mx-8">Copyright © {{ currentYear }} - All rights reserved</p>
+      <p class="mx-8 justify-center">Copyright © {{ currentYear }} - All rights reserved</p>
     </aside>
-    <nav class="grid-flow-col gap-4 sm:place-self-center md:justify-self-end">
+    <nav class="grid-flow-col gap-4 md:place-self-center lg:justify-center">
       <a>
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" class="fill-current">
           <path

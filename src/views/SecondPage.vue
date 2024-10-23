@@ -85,7 +85,7 @@ onMounted(() => {
 <template>
   <div class="flex flex-col md:flex-row w-full h-[80vh] my-4">
     <!-- Online Users Column -->
-    <div class="w-full md:w-1/4 dark:bg-yellow-300 bg-blue-950 mb-4 md:mb-0 p-4 rounded-lg shadow-lg overflow-y-auto">
+    <div class="w-full md:w-1/4 dark:bg-[#fff248] bg-[#111a3b] mb-4 md:mb-0 p-4 rounded-lg shadow-lg overflow-y-auto">
       <h2 class="text-lg font-bold dark:text-black text-white mb-4">Online Users</h2>
       <div v-for="user in onlineUsers" :key="user.uid" class="flex items-center mb-4">
         <img v-if="user.photoURL" :src="user.photoURL" alt="User Profile" class="profile-pic" />
@@ -97,18 +97,18 @@ onMounted(() => {
     </div>
 
     <!-- Chatbox Area (3/4 of the screen) -->
-    <div class="w-full md:w-3/4 flex flex-col dark:bg-yellow-300 bg-blue-950 p-4 rounded-lg shadow-lg md:ml-4 h-4/5 md:h-full">
+    <div class="w-full md:w-3/4 flex flex-col dark:bg-[#fff248] bg-[#111a3b] p-4 rounded-lg shadow-lg md:ml-4 h-4/5 md:h-full">
       <h1 class="text-lg font-bold dark:text-black text-white mb-4 text-center">CHATSPACE</h1>
 
       <!-- Chat messages container -->
-      <div ref="chatContainer" class="flex-1 bg-blue-950 dark:bg-yellow-300 text-gray-800 rounded-lg p-4 overflow-y-auto">
+      <div ref="chatContainer" class="flex-1 bg-[#111a3b] dark:bg-[#fff248] text-gray-800 rounded-lg p-4 overflow-y-auto">
         <div v-for="message in messages" :key="message.id" class="w-full flex items-start mb-4">
           <img :src="message.userPhotoURL" alt="Profile Picture" v-if="message.userPhotoURL"
             class="profile-pic my-auto" />
           <div class="flex-1">
             <div class="chat chat-start">
               <div
-                :class="['chat-bubble mt-2 pt-3 pb-4 pe-4 w-full md:w-1/2 ', message.userId === props.user.uid ? 'chat-bubble-warning' : 'chat-bubble-info']">
+                :class="['chat-bubble mt-2 pt-3 pb-4 pe-4 w-full md:w-full lg:w-3/4 ', message.userId === props.user.uid ? 'chat-bubble-warning' : 'chat-bubble-info']">
                 <div class="my-auto me-4 text-sm mb-4">
                   <strong>{{ message.userName }}:</strong>
                 </div>
