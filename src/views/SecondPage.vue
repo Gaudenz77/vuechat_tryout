@@ -85,7 +85,7 @@ onMounted(() => {
 <template>
   <div class="flex flex-col md:flex-row w-full h-[80vh] my-4">
     <!-- Online Users Column -->
-    <div class="w-full md:w-1/4 dark:bg-[#fff248] bg-[#111a3b] mb-4 md:mb-0 p-4 rounded-lg shadow-lg overflow-y-auto">
+    <div class="w-full h-full md:w-1/4 dark:bg-[#fff248] bg-[#111a3b] mb-4 md:mb-0 p-4 rounded-lg shadow-lg overflow-y-auto hidden md:block">
       <h2 class="text-lg font-bold dark:text-black text-white mb-4">Online Users</h2>
       <div v-for="user in onlineUsers" :key="user.uid" class="flex items-center mb-4">
         <img v-if="user.photoURL" :src="user.photoURL" alt="User Profile" class="profile-pic" />
