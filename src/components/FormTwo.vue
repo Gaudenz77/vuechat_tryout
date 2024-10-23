@@ -82,9 +82,8 @@ const signInWithGoogle = async (event: Event) => {
         type="email" name="email" v-model="formdata.email" placeholder="Enter your e-mail address" required />
       <br />
       <label for="password" class="block text-sm font-medium leading-6 text-gray-900">Password</label>
-      <!-- VISIBILITY TOOGLE SHOULD START HERE -->
-      
-             <!-- Password input with toggle visibility -->
+      <!-- VISIBILITY TOOGLE SHOULD START HERE -->      
+      <!-- Password input with toggle visibility -->
       <div class="relative">
         <input
           class="block flex-1 w-full rounded-sm focus:border-blue-300 border-2 border-solid outline-none bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-2 sm:text-sm sm:leading-6"
@@ -96,8 +95,6 @@ const signInWithGoogle = async (event: Event) => {
            @click="togglePasswordVisibility" 
            ></i>
       </div>
-      
- 
       <!-- VISIBILITY TOOGLE SHOULD END HERE -->  
       <br />
       <div class="text-center">
