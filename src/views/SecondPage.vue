@@ -98,7 +98,7 @@ onMounted(() => {
 
     <!-- Chatbox Area (3/4 of the screen) -->
     <div class="w-full md:w-3/4 flex flex-col dark:bg-[#fff248] bg-[#111a3b] p-4 rounded-lg shadow-lg md:ml-4 h-4/5 md:h-full">
-      <h1 class="text-lg font-bold dark:text-black text-white mb-4 text-center">CHATSPACE</h1>
+      <h1 class="text-lg font-bold dark:text-black text-white mb-4 text-center">CHATSPACE -Test</h1>
 
       <!-- Chat messages container -->
       <div ref="chatContainer" class="flex-1 bg-[#111a3b] dark:bg-[#fff248] text-gray-800 rounded-lg p-4 overflow-y-auto">
