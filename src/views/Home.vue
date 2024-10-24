@@ -18,7 +18,7 @@ export default {
     <div class="sm:w-2/3 w-full mt-8 px-8">
       <div class="text-[1.5rem] font-bold dark:text-black text-white ">
         <h1>Home Page</h1>
-        <p class="">Welcome to the HEIM PAGES!!!</p>
+        <p class="">Welcome to the HEIMHEIM PAGES!!!</p>
       </div>
       <p class="dark:text-gray-900 text-slate-100 mt-4">
         This is a sample text block that will take up 2/3 of the width on small and larger screens, and stack below the image on smaller screens. Use this space to provide a description or any other relevant content.
