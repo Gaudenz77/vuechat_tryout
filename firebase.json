@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "public": "dist/vuechat_tryout",
+    "public": "dist",
     "ignore": [
       "firebase.json",
       "**/.*",
