@@ -43,7 +43,7 @@ export function useChat() {
   const loadMessages = () => {
     // Calculate the date for 7 days ago
     const oneWeekAgo = new Date();
-    oneWeekAgo.setDate(oneWeekAgo.getDate() - 2);
+    oneWeekAgo.setDate(oneWeekAgo.getDate() - 10);
 
     // Query to load messages from the last 7 days
     const messagesQuery = query(

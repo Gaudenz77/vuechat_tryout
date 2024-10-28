@@ -106,6 +106,9 @@ const signInWithGoogle = async (event: Event) => {
           type="button" @click="signInWithGoogle">Sign In With Google</button>
       </div>
     </form>
+    <p class="mt-4">Not Registered? Go To <a href="/register">Register</a> page 
+      
+    </p>
   </div>
 </template>
 
