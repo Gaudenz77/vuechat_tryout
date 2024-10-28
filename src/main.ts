@@ -6,7 +6,7 @@ import router from "./router"; // Import the router
 import { initializeApp } from "firebase/app"; // Import from 'firebase/app' for frontend use
 import { getFirestore } from "firebase/firestore"; // Import Firestore
 import { getMessaging } from "firebase/messaging";
-import { initializeAppCheck, ReCaptchaV3Provider } from "firebase/app-check";
+/* import { initializeAppCheck, ReCaptchaV3Provider } from "firebase/app-check"; */
 
 
 
