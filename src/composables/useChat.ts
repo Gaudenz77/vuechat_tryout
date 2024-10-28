@@ -23,20 +23,19 @@ export function useChat() {
   const messages = ref<Message[]>([]);
   const messagesCollection = collection(db, "messages");
 
-  // Function to send a message with displayName from Firestore
   const sendMessage = async (text: string, user: any) => {
     if (!user) return;
     const { uid, photoURL, displayName } = user;
     try {
       await addDoc(messagesCollection, {
-        userName: displayName || 'Anonymous',
-        userPhotoURL: photoURL || '', // Handle undefined photo URLs
+        userName: displayName || "Anonymous",
+        userPhotoURL: photoURL || "", // Handle missing photoURL gracefully
         userId: uid,
-        text: text,
+        text,
         createdAt: serverTimestamp(),
       });
     } catch (error) {
-      console.error('Error sending message:', error);
+      console.error("Error sending message:", error);
     }
   };
   
