@@ -77,7 +77,7 @@ const handleSignout = async () => {
         tabindex="0"
         class="menu menu-sm dark:bg-[#fff248] bg-[#111a3b] dropdown-content rounded-box z-[1] mt-3 w-52 p-2 shadow">
         <li><a><router-link to="/">Home</router-link></a></li>
-        <li><a><router-link to="/secondpage">Chat Page</router-link> </a></li>
+        <li><a><router-link to="/secondpage" v-if="isLoggedIn">Second Page</router-link> </a></li>
         <li><a><router-link to="/about">About</router-link></a></li>
         <li><a><router-link to="/login" v-if="!isLoggedIn">Login</router-link></a></li>
         <li><a><router-link to="/register" v-if="!isLoggedIn">Register</router-link></a></li>
@@ -88,7 +88,7 @@ const handleSignout = async () => {
   <div class="navbar-center hidden lg:flex">
     <ul class="menu menu-horizontal  px-1">
         <li><a><router-link to="/">Home</router-link></a></li>
-        <li><a><router-link to="/secondpage" >Chat Page</router-link> </a></li>
+        <li><a><router-link to="/secondpage" v-if="isLoggedIn">Second Page</router-link> </a></li>
         <li><a><router-link to="/about">About</router-link></a></li>
         <li><a><router-link to="/login" v-if="!isLoggedIn">Login</router-link></a></li>
         <li><a><router-link to="/register" v-if="!isLoggedIn">Register</router-link></a></li>
