@@ -24,11 +24,11 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
-const appCheck = initializeAppCheck(app, {
+/* const appCheck = initializeAppCheck(app, {
     provider: new ReCaptchaV3Provider(import.meta.env.VITE_RECAPTCHA_SITE_KEY),
     isTokenAutoRefreshEnabled: false
 });
-
+ */
 
 
 // Initialize Firestore
@@ -53,4 +53,4 @@ export { db };
 export { messaging };
 
 // Export the Firestore instance for use in other files
-export { appCheck };
+/* export { appCheck }; */
