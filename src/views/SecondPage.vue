@@ -5,8 +5,7 @@ import { useChat } from "../composables/useChat";
 import EmojiPicker from 'vue3-emoji-picker';
 import 'vue3-emoji-picker/css';
 import { getFirestore, collection, query, where, onSnapshot } from 'firebase/firestore';
-
-/* import "emoji-mart-vue-fast/css/emoji-mart.css"; */
+import { getStorage, ref as storageRef, getDownloadURL } from "firebase/storage";
 
 // Define the user type
 interface User {
@@ -32,12 +31,24 @@ const onSelectEmoji = (emoji: any) => {
 // Firestore setup for online users
 onMounted(() => {
   const db = getFirestore();
+  const storage = getStorage();
   const q = query(collection(db, 'users'), where('status', '==', 'online'));
 
-  onSnapshot(q, (querySnapshot) => {
-  console.log("User querySnapshot", querySnapshot.docs.map((doc) => doc.data())); // Check the data
-  onlineUsers.value = querySnapshot.docs.map((doc) => doc.data() as User);
-});
+  onSnapshot(q, async (querySnapshot) => {
+    // Map through users and fetch their profile pictures
+    onlineUsers.value = await Promise.all(querySnapshot.docs.map(async (doc) => {
+      const userData = doc.data() as User;
+      try {
+        // Attempt to get profile picture URL
+        const profilePicRef = storageRef(storage, `profilePics/${userData.uid}`);
+        userData.photoURL = await getDownloadURL(profilePicRef);
+      } catch (error) {
+        console.error("Error fetching profile picture URL for user:", userData.uid, error);
+        userData.photoURL = ""; // Fallback if image is not found
+      }
+      return userData;
+    }));
+  });
 });
 
 // Props for receiving user data
@@ -81,6 +92,7 @@ onMounted(() => {
   scrollToBottom();
 });
 </script>
+
 
 <template>
   <div class="flex flex-col md:flex-row w-full h-[80vh] my-4">

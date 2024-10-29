@@ -131,8 +131,8 @@ const handleSignout = async () => {
           <ThemeToggle />      
       </div>
       <div v-if="isLoggedIn && user?.photoURL" class="ml-4">
-        <img :src="user.photoURL" alt="User Profile" class="w-10 h-10 rounded-full" />
-    </div>
+          <img :src="user.photoURL" alt="User Profile" class="w-10 h-10 rounded-full" />
+      </div>
   </div>
 </div>
   </header>
