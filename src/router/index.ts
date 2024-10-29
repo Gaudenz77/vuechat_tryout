@@ -44,23 +44,17 @@ const router = createRouter({
   routes,
 });
 
-// Add route guard to check for authentication before accessing protected routes
 router.beforeEach((to, _from, next) => {
-  const requiresAuth = to.matched.some((record) => record.meta.requiresAuth);
   const auth = getAuth();
+  const requiresAuth = to.matched.some((record) => record.meta.requiresAuth);
 
-  if (requiresAuth) {
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        next(); // User is authenticated, allow access
-      } else {
-        alert("You do not have access to this page. Please log in.");
-        next("/login"); // Redirect to login if not authenticated
-      }
-    });
-  } else {
-    next(); // No authentication required, allow access
-  }
+  onAuthStateChanged(auth, (user) => {
+    if (requiresAuth && !user) {
+      next('/login');
+    } else {
+      next();
+    }
+  });
 });
 
 export default router;

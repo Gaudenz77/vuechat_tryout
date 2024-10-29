@@ -2,7 +2,15 @@
 import { ref } from 'vue';
 import { getAuth, createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, updateProfile } from 'firebase/auth';
 import { getStorage, ref as storageRef, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { getFirestore, doc, setDoc, getDoc } from 'firebase/firestore';
 import router from '../router';
+
+// Initialize Firebase Authentication, Firestore, and Storage
+const auth = getAuth();
+const db = getFirestore();
+const storage = getStorage();
+const provider = new GoogleAuthProvider();
+
 
 // Reactive form data object
 let formdata = ref({
@@ -11,11 +19,6 @@ let formdata = ref({
   displayName: '',
   profilePic: null as File | null, // Initialize as File | null to avoid type error
 });
-
-// Initialize Firebase Authentication
-const auth = getAuth();
-const provider = new GoogleAuthProvider();
-const storage = getStorage();
 
 // Handle file upload for the profile picture
 const handleFileUpload = (event: Event) => {
@@ -30,11 +33,11 @@ const register = async (event: Event) => {
   event.preventDefault(); // Prevent form from refreshing the page
 
   try {
-    // Create user
+    // Create user in Firebase Authentication
     const userCredential = await createUserWithEmailAndPassword(auth, formdata.value.email, formdata.value.password);
     const user = userCredential.user;
 
-    // Initialize photoURL to null first
+    // Initialize photoURL to null initially
     let photoURL = null;
 
     // If a profile picture is selected, upload it to Firebase Storage
@@ -50,14 +53,23 @@ const register = async (event: Event) => {
       photoURL: photoURL || '', // Use the uploaded photoURL or an empty string
     });
 
-    console.log('User registered:', user);
+    // Save the user data to Firestore under the users collection
+    await setDoc(doc(db, "users", user.uid), {
+      displayName: formdata.value.displayName,
+      email: formdata.value.email,
+      photoURL: photoURL,
+      createdAt: new Date(),
+      status: "offline", // Set the default status
+    });
+
+    console.log('User registered and saved to Firestore:', user);
     alert(`User registered with email: ${formdata.value.email}`);
 
-    // Clear the form data object after successful registration
+    // Clear the form data after successful registration
     formdata.value.email = '';
     formdata.value.password = '';
     formdata.value.displayName = '';
-    formdata.value.profilePic = null; // Reset the profilePic field
+    formdata.value.profilePic = null;
 
     // Redirect to the second page after successful registration
     router.push('/secondpage');
@@ -68,6 +80,8 @@ const register = async (event: Event) => {
     }
   }
 };
+
+
 
 // Sign in with Google
 const signInWithGoogle = async (event: Event) => {
@@ -80,11 +94,21 @@ const signInWithGoogle = async (event: Event) => {
     console.log('User signed in with Google:', user);
     alert(`User signed in with Google: ${user.displayName} (Email: ${user.email})`);
 
-    // Optionally store user data in Firestore or display it in your chat app
-    await updateProfile(user, {
-      displayName: user.displayName,
-      photoURL: user.photoURL || '', // Capture the Google profile picture
-    });
+    // Check if the user already exists in Firestore
+    const userRef = doc(db, "users", user.uid);
+    const userDoc = await getDoc(userRef);
+
+    if (!userDoc.exists()) {
+      // Add the new user to Firestore if they don't already exist
+      await setDoc(userRef, {
+        displayName: user.displayName,
+        email: user.email,
+        photoURL: user.photoURL || '', // Capture the Google profile picture
+        createdAt: new Date(),
+        status: "offline",
+      });
+      console.log('User added to Firestore:', user.displayName);
+    }
 
     // Redirect to the second page
     router.push('/secondpage');
@@ -95,6 +119,7 @@ const signInWithGoogle = async (event: Event) => {
     }
   }
 };
+
 </script>
 
 

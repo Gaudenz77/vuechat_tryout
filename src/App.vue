@@ -3,7 +3,7 @@ import { onMounted, ref } from 'vue';
 import { getAuth, onAuthStateChanged, setPersistence, browserSessionPersistence, signOut } from 'firebase/auth';
 import { useRouter } from 'vue-router';
 import ThemeToggle from './components/ThemeToggle.vue';
-import { getFirestore, doc, updateDoc } from 'firebase/firestore';
+import { getFirestore, doc, updateDoc, getDoc } from 'firebase/firestore';
 
 
 const currentYear = ref(new Date().getFullYear());
@@ -44,13 +44,32 @@ onMounted(() => {
 
 // Sign out function should update Firestore as well
 const handleSignout = async () => {
-  if (auth.currentUser) {
-    const userRef = doc(db, 'users', auth.currentUser.uid);
-    await updateDoc(userRef, { status: 'offline' });
+  try {
+    if (auth.currentUser) {
+      const userRef = doc(db, 'users', auth.currentUser.uid);
+      const userDoc = await getDoc(userRef); // Check if the document exists
+
+      if (userDoc.exists()) {
+        await updateDoc(userRef, { status: 'offline' });
+      } else {
+        console.warn(`User document for UID ${auth.currentUser.uid} does not exist.`);
+      }
+    }
+    
+    await signOut(auth);
+    
+    // Set user state to null only after successful sign out
+    user.value = null;
+    isLoggedIn.value = false;
+
+    // Navigate only after updating state
+    router.push('/');
+  } catch (error) {
+    console.error('Error signing out:', error);
   }
-  await signOut(auth);
-  router.push('/');
 };
+
+
 
 </script>
 
@@ -97,17 +116,23 @@ const handleSignout = async () => {
   </div>
   <div class="navbar-end">
     <div class="mx-4">
-      <button class="dark:bg-success dark:text-slate-100 bg-error text-slate-100 px-4 py-2"
-                @click="handleSignout" v-if="isLoggedIn">
-                Sign Out
+      <button
+        class="dark:bg-success dark:text-slate-100 bg-error text-slate-100 px-4 py-2"
+        @click="handleSignout"
+        v-if="isLoggedIn">
+        Sign Out
       </button>
       </div>
+      <div>
+    <p v-if="user">{{ user.displayName }}</p>
+    <p v-else>No user logged in.</p>
+  </div>
       <div class="">
           <ThemeToggle />      
       </div>
       <div v-if="isLoggedIn && user?.photoURL" class="ml-4">
-          <img :src="user.photoURL" alt="User Profile" class="w-10 h-10 rounded-full" />
-      </div>
+        <img :src="user.photoURL" alt="User Profile" class="w-10 h-10 rounded-full" />
+    </div>
   </div>
 </div>
   </header>
