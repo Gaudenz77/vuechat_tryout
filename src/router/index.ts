@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from "vue-router";
+import { createRouter, createWebHistory, RouteLocationNormalized, NavigationGuardNext, RouteRecordNormalized } from "vue-router";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 // Use dynamic imports for views to enable code-splitting
@@ -44,9 +44,9 @@ const router = createRouter({
   routes,
 });
 
-router.beforeEach((to, _from, next) => {
+router.beforeEach((to: RouteLocationNormalized, _from: RouteLocationNormalized, next: NavigationGuardNext) => {
   const auth = getAuth();
-  const requiresAuth = to.matched.some((record) => record.meta.requiresAuth);
+  const requiresAuth = to.matched.some((record: RouteRecordNormalized) => record.meta.requiresAuth);
 
   onAuthStateChanged(auth, (user) => {
     if (requiresAuth && !user) {

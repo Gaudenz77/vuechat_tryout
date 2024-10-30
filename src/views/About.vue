@@ -1,11 +1,13 @@
 <script>
 export default {
   name: 'About',
+  component: 'About.vue',
 }
 </script>
 
 <template>
-  <div class="my-4">
+  <div>
+    <div class="my-4">
     <h1>About Page</h1>
     <p>This is the about page!</p>
   </div>
@@ -26,6 +28,8 @@ export default {
       <h1 class="text-lg text-black text-center">Welcome To the About-Page</h1>
     </div>
   </div>
+  </div>
+
 </template>
 
 <style>

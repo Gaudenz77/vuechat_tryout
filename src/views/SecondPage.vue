@@ -6,6 +6,7 @@ import EmojiPicker from 'vue3-emoji-picker';
 import 'vue3-emoji-picker/css';
 import { getFirestore, collection, query, where, onSnapshot } from 'firebase/firestore';
 import { getStorage, ref as storageRef, getDownloadURL } from "firebase/storage";
+import { getAuth } from "firebase/auth";
 
 // Define the user type
 interface User {
@@ -30,25 +31,43 @@ const onSelectEmoji = (emoji: any) => {
 
 // Firestore setup for online users
 onMounted(() => {
-  const db = getFirestore();
-  const storage = getStorage();
-  const q = query(collection(db, 'users'), where('status', '==', 'online'));
+  const auth = getAuth();
+  const user = auth.currentUser;
 
-  onSnapshot(q, async (querySnapshot) => {
-    // Map through users and fetch their profile pictures
-    onlineUsers.value = await Promise.all(querySnapshot.docs.map(async (doc) => {
-      const userData = doc.data() as User;
-      try {
-        // Attempt to get profile picture URL
-        const profilePicRef = storageRef(storage, `profilePics/${userData.uid}`);
-        userData.photoURL = await getDownloadURL(profilePicRef);
-      } catch (error) {
-        console.error("Error fetching profile picture URL for user:", userData.uid, error);
-        userData.photoURL = ""; // Fallback if image is not found
-      }
-      return userData;
-    }));
-  });
+  if (user) {
+    const db = getFirestore();
+    const storage = getStorage();
+    const q = query(collection(db, 'users'), where('status', '==', 'online'));
+
+    onSnapshot(q, async (querySnapshot) => {
+      onlineUsers.value = await Promise.all(querySnapshot.docs.map(async (doc) => {
+        const userData = doc.data() as User;
+
+        // Make sure to include uid if available
+        userData.uid = doc.id; // Use the document ID as the uid
+
+        // Check if uid is defined
+        if (userData.uid) {
+          try {
+            const profilePicRef = storageRef(storage, `profilePics/${userData.uid}`);
+            userData.photoURL = await getDownloadURL(profilePicRef);
+          } catch (error) {
+            console.error("Error fetching profile picture URL for user:", userData.uid, error);
+            userData.photoURL = ""; // Fallback if image is not found
+          }
+        } else {
+          console.warn("User ID is undefined for user data:", userData);
+          userData.photoURL = ""; // Set fallback if uid is undefined
+          console.log("User data:", userData);
+        }
+
+        return userData;
+      }));
+    });
+
+  } else {
+    console.log("User is not authenticated");
+  }
 });
 
 // Props for receiving user data
@@ -97,23 +116,27 @@ onMounted(() => {
 <template>
   <div class="flex flex-col md:flex-row w-full h-[80vh] my-4">
     <!-- Online Users Column -->
-    <div class="w-full h-full md:w-1/4 dark:bg-[#fff248] bg-[#111a3b] mb-4 md:mb-0 p-4 rounded-lg shadow-lg overflow-y-auto hidden md:block">
+    <div
+      class="w-full h-full md:w-1/4 dark:bg-[#fff248] bg-[#111a3b] mb-4 md:mb-0 p-4 rounded-lg shadow-lg overflow-y-auto hidden md:block">
       <h2 class="text-lg font-bold dark:text-black text-white mb-4">Online Users</h2>
       <div v-for="user in onlineUsers" :key="user.uid" class="flex items-center mb-4">
-      <img v-if="user.photoURL" :src="user.photoURL" alt="User Profile" class="profile-pic" />
-      <p class="ml-2 text-lg dark:text-black text-white"><strong>{{ user.displayName }}</strong></p>
-    </div>
+        <img v-if="user.photoURL" :src="user.photoURL" alt="User Profile" class="profile-pic" />
+        <p class="ml-2 text-lg dark:text-black text-white"><strong>{{ user.displayName }}</strong></p>
+      </div>
+
       <div class="">
-          <ClickYouFate />
+        <ClickYouFate />
       </div>
     </div>
 
     <!-- Chatbox Area (3/4 of the screen) -->
-    <div class="w-full md:w-3/4 flex flex-col dark:bg-[#fff248] bg-[#111a3b] p-4 rounded-lg shadow-lg md:ml-4 h-4/5 md:h-full">
+    <div
+      class="w-full md:w-3/4 flex flex-col dark:bg-[#fff248] bg-[#111a3b] p-4 rounded-lg shadow-lg md:ml-4 h-4/5 md:h-full">
       <h1 class="text-lg font-bold dark:text-black text-white mb-4 text-center">CHATSPACE -Test -New</h1>
 
       <!-- Chat messages container -->
-      <div ref="chatContainer" class="flex-1 bg-[#111a3b] dark:bg-[#fff248] text-gray-800 rounded-lg p-4 overflow-y-auto">
+      <div ref="chatContainer"
+        class="flex-1 bg-[#111a3b] dark:bg-[#fff248] text-gray-800 rounded-lg p-4 overflow-y-auto">
         <div v-for="message in messages" :key="message.id" class="w-full flex items-start mb-4">
           <img :src="message.userPhotoURL" alt="Profile Picture" v-if="message.userPhotoURL"
             class="profile-pic my-auto" />
@@ -126,42 +149,42 @@ onMounted(() => {
                 </div>
                 {{ message.text }}
                 <p><span class="text-xs text-gray-500">{{ message.createdAt ? message.createdAt.toLocaleString() :
-                    'Sending...' }}</span></p>
+                  'Sending...' }}</span></p>
               </div>
             </div>
           </div>
         </div>
       </div>
-<!-- Message input and send button -->
-<form @submit.prevent="handleSendMessage" class="flex items-center mt-4 w-full">
-  <!-- Textarea for message input -->
-  <div class="relative flex-1">
-    <textarea v-model="messageInput"
-      class="w-full pr-16 rounded-md p-4 dark:text-gray-100 bg-slate-800 resize-none"
-      id="message" @keydown.enter="handleKeyPress" placeholder="Type your message..."></textarea>
+      <!-- Message input and send button -->
+      <form @submit.prevent="handleSendMessage" class="flex items-center mt-4 w-full">
+        <!-- Textarea for message input -->
+        <div class="relative flex-1">
+          <textarea v-model="messageInput"
+            class="w-full pr-16 rounded-md p-4 dark:text-gray-100 bg-slate-800 resize-none" id="message"
+            @keydown.enter="handleKeyPress" placeholder="Type your message..."></textarea>
 
-    <!-- Buttons inside the textarea container (positioned to the right) -->
-    <div class="absolute right-2 top-2 flex space-x-2">
-      <!-- Emoji Picker Button -->
-      <a href="#emoji_modal" class="text-orange-500 text-2xl p-3 rounded-full">
-        <i class="fa-solid fa-face-grin-squint-tears fa-spin text-orange-800 hover:text-red-500"></i>
-      </a>
+          <!-- Buttons inside the textarea container (positioned to the right) -->
+          <div class="absolute right-2 top-2 flex space-x-2">
+            <!-- Emoji Picker Button -->
+            <a href="#emoji_modal" class="text-orange-500 text-2xl p-3 rounded-full">
+              <i class="fa-solid fa-face-grin-squint-tears fa-spin text-orange-800 hover:text-red-500"></i>
+            </a>
 
-      <!-- Send Button -->
-      <button type="submit" aria-label="Send message" class="btn btn-success rounded-full">
-        <i class="fa-solid fa-paper-plane"></i>
-      </button>
-    </div>
-  </div>
-</form>
+            <!-- Send Button -->
+            <button type="submit" aria-label="Send message" class="btn btn-success rounded-full">
+              <i class="fa-solid fa-paper-plane"></i>
+            </button>
+          </div>
+        </div>
+      </form>
 
-<!-- Emoji Picker Modal -->
-<div id="emoji_modal" class="modal" role="dialog">
-  <EmojiPicker :native="false" @select="onSelectEmoji" />
-  <div class="modal-action">
-    <a href="#" class="btn"><i class="fa-solid fa-xmark"></i></a>
-  </div>
-</div>
+      <!-- Emoji Picker Modal -->
+      <div id="emoji_modal" class="modal" role="dialog">
+        <EmojiPicker :native="false" @select="onSelectEmoji" />
+        <div class="modal-action">
+          <a href="#" class="btn"><i class="fa-solid fa-xmark"></i></a>
+        </div>
+      </div>
 
 
       <!-- Emoji Picker Modal -->

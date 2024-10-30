@@ -8,7 +8,7 @@ export default {
 }
 </script>
 <template>
-
+<div>
   <div class="flex flex-wrap w-full justify-center my-4 dark:bg-yellow-300 bg-blue-950 rounded-lg px-4 py-2">
 <!-- Left div for image (1/3 width on small and above screens) -->
     <div class="sm:w-1/3 w-full mb-4 sm:mb-0">
@@ -66,6 +66,8 @@ Second row, three columns
       </div>
     </div>
   </div> -->
+</div>
+
 
 </template>
 

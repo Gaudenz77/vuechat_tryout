@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import { getAuth, createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, updateProfile } from 'firebase/auth';
+import { getAuth, createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, updateProfile, reload } from 'firebase/auth';
 import { getStorage, ref as storageRef, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { getFirestore, doc, setDoc, getDoc } from 'firebase/firestore';
 import router from '../router';
@@ -12,66 +12,59 @@ const storage = getStorage();
 const provider = new GoogleAuthProvider();
 
 
-// Reactive form data object
 let formdata = ref({
   email: '',
   password: '',
   displayName: '',
-  profilePic: null as File | null, // Initialize as File | null to avoid type error
+  profilePic: null as File | null,
 });
 
-// Handle file upload for the profile picture
 const handleFileUpload = (event: Event) => {
   const file = (event.target as HTMLInputElement).files?.[0];
   if (file) {
-    formdata.value.profilePic = file; // Assign the file to profilePic
+    formdata.value.profilePic = file;
   }
 };
 
-// Method to handle form submission for registration
 const register = async (event: Event) => {
-  event.preventDefault(); // Prevent form from refreshing the page
+  event.preventDefault();
 
   try {
-    // Create user in Firebase Authentication
     const userCredential = await createUserWithEmailAndPassword(auth, formdata.value.email, formdata.value.password);
     const user = userCredential.user;
 
-    // Initialize photoURL to null initially
-    let photoURL = null;
-
-    // If a profile picture is selected, upload it to Firebase Storage
+    // Handle profile picture upload
+    let photoURL = '';
     if (formdata.value.profilePic) {
       const storageRefPath = storageRef(storage, `profilePics/${user.uid}`);
       const snapshot = await uploadBytes(storageRefPath, formdata.value.profilePic);
       photoURL = await getDownloadURL(snapshot.ref);
     }
 
-    // Update user profile to include displayName and photoURL
+    // Update profile with displayName and photoURL
     await updateProfile(user, {
       displayName: formdata.value.displayName,
-      photoURL: photoURL || '', // Use the uploaded photoURL or an empty string
-    });
-
-    // Save the user data to Firestore under the users collection
-    await setDoc(doc(db, "users", user.uid), {
-      displayName: formdata.value.displayName,
-      email: formdata.value.email,
       photoURL: photoURL,
-      createdAt: new Date(),
-      status: "offline", // Set the default status
     });
 
-    console.log('User registered and saved to Firestore:', user);
-    alert(`User registered with email: ${formdata.value.email}`);
+    // Reload user to get updated data
+    await reload(auth.currentUser!);
 
-    // Clear the form data after successful registration
-    formdata.value.email = '';
-    formdata.value.password = '';
-    formdata.value.displayName = '';
-    formdata.value.profilePic = null;
+    // Save to Firestore
+    await setDoc(doc(db, 'users', user.uid), {
+  displayName: formdata.value.displayName,
+  email: formdata.value.email,
+  photoURL: photoURL,
+  createdAt: new Date(),
+  status: 'offline',
+  uid: user.uid, // Ensure uid is saved here
+});
 
-    // Redirect to the second page after successful registration
+
+    // Clear form data
+    formdata.value = { email: '', password: '', displayName: '', profilePic: null };
+
+    // Redirect to the second page
     router.push('/secondpage');
   } catch (error) {
     if (error instanceof Error) {
@@ -80,6 +73,7 @@ const register = async (event: Event) => {
     }
   }
 };
+
 
 
 

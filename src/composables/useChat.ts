@@ -24,7 +24,11 @@ export function useChat() {
   const messagesCollection = collection(db, "messages");
 
   const sendMessage = async (text: string, user: any) => {
-    if (!user) return;
+    if (!user || !user.uid || !user.displayName) {
+      console.warn('User data is incomplete:', user);
+      return;
+    }
+  
     const { uid, photoURL, displayName } = user;
     try {
       await addDoc(messagesCollection, {
@@ -38,6 +42,7 @@ export function useChat() {
       console.error("Error sending message:", error);
     }
   };
+  
   
   const loadMessages = () => {
     // Calculate the date for 7 days ago
