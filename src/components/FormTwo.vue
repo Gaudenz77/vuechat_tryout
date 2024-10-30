@@ -1,8 +1,12 @@
 <script setup lang="ts">
 /* import { GoogleAuthProvider } from "firebase/auth/web-extension"; */
-import { ref } from "vue";
+import { ref, defineProps } from "vue";
 import { getAuth, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from 'firebase/auth'
 import router from '../router'
+
+const props = defineProps<{
+  user: { displayName: string; photoURL: string; uid: string } | null;
+}>();
 
 // Reactive form data object
 let formdata = ref({
@@ -74,7 +78,9 @@ const signInWithGoogle = async (event: Event) => {
 </script>
 
 <template>
-  <div class="form-container my-12 py-8">
+  <div>
+    <div class="form-container my-12 py-8">
+
     <form class="dark:text-slate-100 text-slate-800">
       <label for="email" class="block text-sm font-medium leading-6 text-gray-900">E-Mail</label>
       <input
@@ -110,6 +116,8 @@ const signInWithGoogle = async (event: Event) => {
       
     </p>
   </div>
+  </div>
+  
 </template>
 
 <style>
