@@ -10,7 +10,7 @@ export default {
 </script>
 
 <template>
-    <div class="text-center mt-8">
+    <div class="text-center mt-8 text-black dark:text-white text-lg font-bold">
         <h1>Register Page</h1>
         <p>This is the register page!</p>
     </div>

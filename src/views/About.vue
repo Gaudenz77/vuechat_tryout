@@ -7,11 +7,11 @@ export default {
 
 <template>
   <div>
-    <div class="my-4">
-    <h1>About Page</h1>
-    <p>This is the about page!</p>
-  </div>
-  <div class="flex flex-wrap w-auto justify-center gap-4">
+  <!--   <div class="my-4">
+      <h1>About Page</h1>
+      <p>This is the about page!</p>
+    </div> -->
+  <div class="flex flex-wrap w-auto justify-center gap-4 mt-12">
     <div class="w-[80vw] card  bg-orange-200 rounded-lg shadow-lg p-4">
       <h1 class="text-lg text-black text-center">Welcome To the About-Page</h1>
       <h1 class="text-lg text-black font-bold text-[2rem] text-center">MISSION STATEMENT</h1>

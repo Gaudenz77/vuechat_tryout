@@ -114,7 +114,7 @@ onMounted(() => {
 
 
 <template>
-  <div class="flex flex-col md:flex-row w-full h-[80vh] my-4">
+  <div class="flex flex-col md:flex-row w-full h-[100vh] md:h-[80vh] mt-2 my-4">
     <!-- Online Users Column -->
     <div
       class="w-full h-full md:w-1/4 dark:bg-[#fff248] bg-[#111a3b] mb-4 md:mb-0 p-4 rounded-lg shadow-lg overflow-y-auto hidden md:block">
@@ -164,7 +164,7 @@ onMounted(() => {
             @keydown.enter="handleKeyPress" placeholder="Type your message..."></textarea>
 
           <!-- Buttons inside the textarea container (positioned to the right) -->
-          <div class="absolute right-2 top-2 flex space-x-2">
+          <div class="absolute right-2 top-2 flex space-x-2 py-2 pe-2">
             <!-- Emoji Picker Button -->
             <a href="#emoji_modal" class="text-orange-500 text-2xl p-3 rounded-full">
               <i class="fa-solid fa-face-grin-squint-tears fa-spin text-orange-800 hover:text-red-500"></i>

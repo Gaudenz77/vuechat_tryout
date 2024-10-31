@@ -94,7 +94,7 @@ const handleSignout = async () => {
       </div>
       <ul
         tabindex="0"
-        class="menu menu-sm dark:bg-[#fff248] bg-[#111a3b] dropdown-content rounded-box z-[1] mt-3 w-52 p-2 shadow">
+        class="menu menu-sm bg-[#fff248] dark:bg-[#111a3b] dark:text-slate-100 text-slate-900 dropdown-content rounded-box z-[1] mt-3 w-52 p-2 shadow">
         <li><a><router-link to="/">Home</router-link></a></li>
         <li><a><router-link to="/secondpage" v-if="isLoggedIn">Second Page</router-link> </a></li>
         <li><a><router-link to="/about">About</router-link></a></li>
@@ -102,15 +102,15 @@ const handleSignout = async () => {
         <li><a><router-link to="/register" v-if="!isLoggedIn">Register</router-link></a></li>
       </ul>
     </div>
-    <a class="btn btn-ghost text-xl font-bold italic">SWIZZ24-CHat-CHannel</a>
+    <a class="btn btn-ghost text-sm md:text-xl font-bold italic ">SWIZZ24<br class="sm:-mt-2 md:-mt-2" />Chat</a>
   </div>
   <div class="navbar-center hidden lg:flex">
     <ul class="menu menu-horizontal  px-1">
-        <li><a><router-link to="/">Home</router-link></a></li>
-        <li><a><router-link to="/secondpage" v-if="isLoggedIn">Second Page</router-link> </a></li>
-        <li><a><router-link to="/about">About</router-link></a></li>
-        <li><a><router-link to="/login" v-if="!isLoggedIn">Login</router-link></a></li>
-        <li><a><router-link to="/register" v-if="!isLoggedIn">Register</router-link></a></li>
+        <li><a><router-link activeClass="font-bold" to="/">Home</router-link></a></li>
+        <li><a><router-link activeClass="font-bold" to="/secondpage" v-if="isLoggedIn">Second Page</router-link> </a></li>
+        <li><a><router-link activeClass="font-bold" to="/about">About</router-link></a></li>
+        <li><a><router-link activeClass="font-bold" to="/login" v-if="!isLoggedIn">Login</router-link></a></li>
+        <li><a><router-link activeClass="font-bold" to="/register" v-if="!isLoggedIn">Register</router-link></a></li>
         
     </ul>
   </div>
@@ -124,8 +124,8 @@ const handleSignout = async () => {
       </button>
       </div>
       <div>
-    <p v-if="user">{{ user.displayName }}</p>
-    <p v-else>No user logged in.</p>
+    <p class="me-4" v-if="user">{{ user.displayName }}</p>
+    <p class="text-sm me-4" v-else>null user</p>
   </div>
       <div class="">
           <ThemeToggle />      
@@ -181,5 +181,9 @@ const handleSignout = async () => {
 <style scoped>
 .logo {
   height: 40px;
+}
+
+.homePageLink {
+  width:.5rem;
 }
 </style>
