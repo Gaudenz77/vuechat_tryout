@@ -167,7 +167,7 @@ onMounted(() => {
           <div class="absolute right-2 top-2 flex space-x-2 py-2 pe-2">
             <!-- Emoji Picker Button -->
             <a href="#emoji_modal" class="text-orange-500 text-2xl p-3 rounded-full">
-              <i class="fa-solid fa-face-grin-squint-tears fa-spin text-orange-800 hover:text-red-500"></i>
+              <i class="fa-solid fa-face-grin-squint-tears fa-spin text-orange-500 hover:text-yellow-500 -me-2"></i>
             </a>
 
             <!-- Send Button -->
@@ -191,7 +191,7 @@ onMounted(() => {
       <div id="emoji_modal" class="modal" role="dialog">
         <EmojiPicker :native="false" @select="onSelectEmoji" />
         <div class="modal-action">
-          <a href="#" class="btn"><i class="fa-solid fa-xmark"></i></a>
+          <a href="#" class="btn"><i class="fa-solid fa-xmark  relative bottom-[4rem] "></i></a>
         </div>
       </div>
     </div>
@@ -214,4 +214,8 @@ textarea {
   position: relative;
   bottom: 3rem;
 }
+
+/* ::v-deep v3-footer {
+  display: none;
+} */
 </style>
