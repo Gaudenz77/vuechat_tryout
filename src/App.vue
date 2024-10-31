@@ -94,7 +94,7 @@ const handleSignout = async () => {
       </div>
       <ul
         tabindex="0"
-        class="menu menu-sm bg-[#fff248] dark:bg-[#111a3b] dark:text-slate-100 text-slate-900 dropdown-content rounded-box z-[1] mt-3 w-52 p-2 shadow">
+        class="menu menu-sm dark:bg-[#fff248] bg-[#111a3b] dark:text-slate-900 text-slate-100 dropdown-content rounded-box z-[1] mt-3 w-52 p-2 shadow">
         <li><a><router-link to="/">Home</router-link></a></li>
         <li><a><router-link to="/secondpage" v-if="isLoggedIn">Second Page</router-link> </a></li>
         <li><a><router-link to="/about">About</router-link></a></li>

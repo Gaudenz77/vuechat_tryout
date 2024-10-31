@@ -10,7 +10,7 @@ export default {
 </script>
 
 <template>
-    <div class="text-center mt-8 text-black dark:text-white text-lg font-bold">
+    <div class="text-center text-black dark:text-white text-lg font-bold mt-4">
         <h1 class="text-yellow-900 dark:text-yellow-400">Login Page</h1>
         <p>This is the login page!</p>
     </div>

@@ -77,7 +77,7 @@ const signInWithGoogle = async (event: Event) => {
 
 <template>
   <div>
-    <div class="form-container my-12 py-8">
+    <div class="form-container my-12 py-8 md:mt-6 md:mb-32">
 
     <form class="dark:text-slate-100 text-slate-800">
       <label for="email" class="block text-sm font-medium leading-6 text-gray-900">E-Mail</label>
@@ -110,7 +110,7 @@ const signInWithGoogle = async (event: Event) => {
           type="button" @click="signInWithGoogle">Sign In With Google</button>
       </div>
     </form>
-    <p class="mt-4 pt-2 dark:text-slate-100 text-slate-800">Not Registered? Go To <a href="/register">Register</a> page 
+    <p class="mt-4 pt-2 text-slate-800 text-center">Not Registered?<br />Go To <a href="/register">Register</a> page 
       
     </p>
   </div>

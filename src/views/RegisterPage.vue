@@ -10,12 +10,12 @@ export default {
 </script>
 
 <template>
-    <div class="text-center mt-8 text-black dark:text-white text-lg font-bold">
+    <div class="text-center text-black dark:text-white text-lg font-bold mt-4">
         <h1>Register Page</h1>
         <p>This is the register page!</p>
     </div>
     <div class="flex flex-wrap justify-center items-center">
-        <div class="">
+        <div class=" -mt-8 md:mt-0">
             <FormOne />
         </div>
     </div>
