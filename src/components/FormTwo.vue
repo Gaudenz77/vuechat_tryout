@@ -1,12 +1,10 @@
 <script setup lang="ts">
 /* import { GoogleAuthProvider } from "firebase/auth/web-extension"; */
-import { ref, defineProps } from "vue";
+import { ref } from "vue";
 import { getAuth, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from 'firebase/auth'
 import router from '../router'
 
-const props = defineProps<{
-  user: { displayName: string; photoURL: string; uid: string } | null;
-}>();
+
 
 // Reactive form data object
 let formdata = ref({
