@@ -147,7 +147,7 @@ onMounted(() => {
                 <div class="my-auto me-4 text-sm mb-4">
                   <strong>{{ message.userName }}:</strong>
                 </div>
-                {{ message.text }}
+                <p class="bubbleBreak">{{ message.text }}</p>
                 <p><span class="text-xs text-gray-500">{{ message.createdAt ? message.createdAt.toLocaleString() :
                   'Sending...' }}</span></p>
               </div>
@@ -215,6 +215,9 @@ textarea {
   bottom: 3rem;
 }
 
+.bubbleBreak {
+  white-space: pre-wrap;
+}
 /* ::v-deep v3-footer {
   display: none;
 } */
