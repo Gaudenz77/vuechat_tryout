@@ -4,9 +4,11 @@ import ClickYouFate from "../components/ClickYouFate.vue";
 import { useChat } from "../composables/useChat";
 import EmojiPicker from 'vue3-emoji-picker';
 import 'vue3-emoji-picker/css';
-import { getFirestore, collection, query, where, onSnapshot } from 'firebase/firestore';
-import { getStorage, ref as storageRef, getDownloadURL } from "firebase/storage";
-import { getAuth } from "firebase/auth";
+import { getFirestore, collection, query, where, onSnapshot, doc, updateDoc } from 'firebase/firestore';
+import { getStorage, ref as storageRef, getDownloadURL, uploadBytes } from "firebase/storage";
+import { getAuth, updateProfile, deleteUser } from "firebase/auth";
+
+
 
 // Define the user type
 interface User {
@@ -15,9 +17,23 @@ interface User {
   photoURL?: string; // Optional photoURL
 }
 
+// State for online users, message input, and user profile
+
+const auth = getAuth();
+const user = auth.currentUser;
+const profilePic = ref(user?.photoURL || "");
+const displayName = ref(user?.displayName || "");
+const email = ref(user?.email || "");
+const loading = ref(false);
+const selectedFile = ref<File | null>(null);
 // State for online users and message input
 const onlineUsers = ref<User[]>([]);
 const messageInput = ref("");
+// Props for receiving user data
+const props = defineProps<{ user: any }>();
+// Chat handling
+const { messages, sendMessage } = useChat();
+const chatContainer = ref<HTMLElement | null>(null);
 
 // Emoji selection handler
 const onSelectEmoji = (emoji: any) => {
@@ -70,21 +86,71 @@ onMounted(() => {
   }
 });
 
-// Props for receiving user data
-const props = defineProps<{ user: any }>();
+// Method to update user profile in Firebase
+const updateProfileInfo = async () => {
+  if (user) {
+    loading.value = true;
+    try {
+      // Update profile picture if a new file is selected
+      if (selectedFile.value) {
+        const storage = getStorage();
+        const storageReference = storageRef(storage, `profilePics/${user.uid}`);
+        await uploadBytes(storageReference, selectedFile.value);
+        profilePic.value = await getDownloadURL(storageReference);
+      }
 
-// Chat handling
-const { messages, sendMessage } = useChat();
-const chatContainer = ref<HTMLElement | null>(null);
+      // Update Firebase Auth profile
+      await updateProfile(user, {
+        displayName: displayName.value,
+        photoURL: profilePic.value,
+      });
 
-// Send message and reset input
-const handleSendMessage = () => {
-  if (messageInput.value.trim()) {
-    sendMessage(messageInput.value, props.user);
-    messageInput.value = ""; // Clear input
+      // Update Firestore user document
+      const db = getFirestore();
+      const userRef = doc(db, "users", user.uid);
+      await updateDoc(userRef, {
+        displayName: displayName.value,
+        photoURL: profilePic.value,
+      });
+
+      alert("Profile updated successfully!");
+    } catch (error) {
+      console.error("Error updating profile:", error);
+    } finally {
+      loading.value = false;
+    }
   }
 };
 
+// Delete user account
+const deleteAccount = async () => {
+  if (user && confirm("Are you sure you want to delete your account? This action cannot be undone.")) {
+    try {
+      await deleteUser(user);
+      alert("Account deleted successfully.");
+      // Optionally, redirect the user or handle UI updates after deletion
+    } catch (error) {
+      console.error("Error deleting account:", error);
+      alert("Error deleting account.");
+    }
+  }
+};
+
+// File selection handler for profile picture
+const handleFileChange = (event: Event) => {
+  const target = event.target as HTMLInputElement;
+  if (target.files && target.files.length > 0) {
+    selectedFile.value = target.files[0];
+  }
+};
+
+
+const handleSendMessage = () => {
+  if (messageInput.value.trim()) {
+    sendMessage(messageInput.value, { uid: user?.uid, displayName: user?.displayName, photoURL: user?.photoURL });
+    messageInput.value = "";
+  }
+};
 // Handle Enter key to send message
 const handleKeyPress = (event: KeyboardEvent) => {
   if (event.key === "Enter" && !event.shiftKey && window.location.hash !== "#emoji_modal") {
@@ -122,6 +188,26 @@ onMounted(() => {
       <div v-for="user in onlineUsers" :key="user.uid" class="flex items-center mb-4">
         <img v-if="user.photoURL" :src="user.photoURL" alt="User Profile" class="profile-pic" />
         <p class="ml-2 text-lg dark:text-black text-white"><strong>{{ user.displayName }}</strong></p>
+      </div>
+
+      <!-- User Profile Edit Section -->
+      <h2 class="text-lg font-bold dark:text-black text-white mb-4">Your Profile</h2>
+      <div class="mb-4">
+        <img :src="profilePic" alt="Profile Picture" class="profile-pic mb-4" />
+        <input type="file" @change="handleFileChange"
+          class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-300 file:text-blue-700 hover:file:bg-blue-100"
+          accept="image/*" />
+
+        <label class="block dark:text-black text-white">Display Name</label>
+        <input v-model="displayName"
+          class="w-full p-2 mb-2 rounded-md dark:bg-gray-200 bg-slate-700 text-gray-800 dark:text-black" />
+
+        <label class="block dark:text-black text-white">Email</label>
+        <input v-model="email"
+          class="w-full p-2 mb-2 rounded-md dark:bg-gray-200 bg-slate-700 text-gray-800 dark:text-black" readonly />
+
+        <button @click="updateProfileInfo" :disabled="loading" class="btn btn-success mt-2">Update Profile</button>
+        <button @click="deleteAccount" class="btn btn-danger mt-2">Delete Account</button>
       </div>
 
       <div class="">
@@ -218,6 +304,7 @@ textarea {
 .bubbleBreak {
   white-space: pre-wrap;
 }
+
 /* ::v-deep v3-footer {
   display: none;
 } */
