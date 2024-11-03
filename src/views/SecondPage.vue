@@ -47,20 +47,13 @@ const onSelectEmoji = (emoji: any) => {
   }
 };
 
-// Change Email Function
-/* const changeEmail = async () => {
-  if (user && newEmail.value.trim()) {
-    try {
-      await updateEmail(user, newEmail.value);
-      alert("Email updated successfully!");
-    } catch (error) {
-      console.error("Error updating email:", error);
-      alert("Failed to update email.");
-    }
-  } else {
-    alert("Please enter a valid email.");
+// Handle Enter key to send message
+const handleKeyPress = (event: KeyboardEvent) => {
+  if (event.key === "Enter" && !event.shiftKey && window.location.hash !== "#emoji_modal") {
+    event.preventDefault();
+    handleSendMessage();
   }
-}; */
+};
 
 
 // Reset Password Function
@@ -184,13 +177,7 @@ const handleSendMessage = () => {
     messageInput.value = "";
   }
 };
-// Handle Enter key to send message
-const handleKeyPress = (event: KeyboardEvent) => {
-  if (event.key === "Enter" && !event.shiftKey && window.location.hash !== "#emoji_modal") {
-    event.preventDefault();
-    handleSendMessage();
-  }
-};
+
 
 // Scroll to bottom of chat
 const scrollToBottom = () => {
@@ -209,6 +196,8 @@ watch(messages, async () => {
 onMounted(() => {
   scrollToBottom();
 });
+
+
 </script>
 
 
@@ -217,14 +206,15 @@ onMounted(() => {
     <!-- Online Users Column -->
     <div
       class="w-full h-full md:w-1/4 dark:bg-[#fff248] bg-[#111a3b] mb-4 md:mb-0 p-4 rounded-lg shadow-lg overflow-y-auto ">
-      <h2 class="text-lg font-bold dark:text-black text-white mb-4">Online Users</h2>
+      <h1 class="text-lg font-bold dark:text-black text-white mb-4 text-center">ACTIVITIES</h1>
+      <h2 class="uppercase text-lg font-bold dark:text-black text-white mb-4">Online Users</h2>
       <div v-for="user in onlineUsers" :key="user.uid" class="flex items-center mb-4">
         <img v-if="user.photoURL" :src="user.photoURL" alt="User Profile" class="profile-pic" />
         <p class="ml-2 text-lg dark:text-black text-white"><strong>{{ user.displayName }}</strong></p>
       </div>
 
       <!-- User Profile Edit Section -->
-      <h2 class="text-lg font-bold dark:text-black text-white mb-4">Your Profile</h2>
+      <h2 class="uppercase text-lg font-bold dark:text-black text-white mb-4">Your Profile</h2>
       <div class="mb-4">
         <img :src="profilePic" alt="Profile Picture" class="profile-pic mb-4" />
         <input type="file" @change="handleFileChange"
@@ -247,7 +237,7 @@ onMounted(() => {
           class="w-full p-2 mb-2 rounded-md dark:bg-gray-200 bg-slate-700 text-gray-800 dark:text-black" />
         <button @click="changeEmail" class="btn btn-primary mt-2">Update Email</button> -->
 
-        <button @click="resetPassword" class="btn btn-warning mt-2">Reset Password</button>
+        <button @click="resetPassword" class="  btn btn-warning mt-2">Reset Password</button>
       </div>
 
       <div class="">
@@ -258,7 +248,7 @@ onMounted(() => {
     <!-- Chatbox Area (3/4 of the screen) -->
     <div
       class="w-full md:w-3/4 flex flex-col dark:bg-[#fff248] bg-[#111a3b] p-4 rounded-lg shadow-lg md:ml-4 h-4/5 md:h-full">
-      <h1 class="text-lg font-bold dark:text-black text-white mb-4 text-center">CHATSPACE -Test -New</h1>
+      <h1 class="text-lg font-bold dark:text-black text-white mb-4 text-center">CHATSPACE</h1>
 
       <!-- Chat messages container -->
       <div ref="chatContainer"
@@ -306,20 +296,12 @@ onMounted(() => {
 
       <!-- Emoji Picker Modal -->
       <div id="emoji_modal" class="modal" role="dialog">
-        <EmojiPicker :native="false" @select="onSelectEmoji" />
+        <EmojiPicker :native="true" @select="onSelectEmoji" />
         <div class="modal-action">
           <a href="#" class="btn"><i class="fa-solid fa-xmark"></i></a>
         </div>
       </div>
 
-
-      <!-- Emoji Picker Modal -->
-      <div id="emoji_modal" class="modal" role="dialog">
-        <EmojiPicker :native="false" @select="onSelectEmoji" />
-        <div class="modal-action">
-          <a href="#" class="btn"><i class="fa-solid fa-xmark  relative bottom-[4rem] "></i></a>
-        </div>
-      </div>
     </div>
   </div>
 </template>
@@ -344,6 +326,7 @@ textarea {
 .bubbleBreak {
   white-space: pre-wrap;
 }
+
 
 /* ::v-deep v3-footer {
   display: none;

@@ -102,7 +102,7 @@ const handleSignout = async () => {
         <li><a><router-link to="/register" v-if="!isLoggedIn">Register</router-link></a></li>
       </ul>
     </div>
-    <a class="btn btn-ghost text-sm md:text-xl font-bold italic ">SWIZZ24<br class="sm:-mt-2 md:-mt-2" />Chat</a>
+    <a class="btn btn-ghost text-sm md:text-xl font-bold italic ">  <br class="sm:-mt-2 md:-mt-2" />Chat</a>
   </div>
   <div class="navbar-center hidden lg:flex">
     <ul class="menu menu-horizontal  px-1">
