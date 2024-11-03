@@ -6,7 +6,7 @@ import EmojiPicker from 'vue3-emoji-picker';
 import 'vue3-emoji-picker/css';
 import { getFirestore, collection, query, where, onSnapshot, doc, updateDoc } from 'firebase/firestore';
 import { getStorage, ref as storageRef, getDownloadURL, uploadBytes } from "firebase/storage";
-import { getAuth, updateProfile, deleteUser } from "firebase/auth";
+import { getAuth, updateProfile, deleteUser, updateEmail, sendPasswordResetEmail } from "firebase/auth";
 
 
 
@@ -26,6 +26,8 @@ const displayName = ref(user?.displayName || "");
 const email = ref(user?.email || "");
 const loading = ref(false);
 const selectedFile = ref<File | null>(null);
+const newEmail = ref("");
+
 // State for online users and message input
 const onlineUsers = ref<User[]>([]);
 const messageInput = ref("");
@@ -42,6 +44,37 @@ const onSelectEmoji = (emoji: any) => {
     window.history.pushState(null, '', window.location.pathname); // Close modal properly
   } else {
     console.error("Selected emoji is invalid or has no recognizable character.");
+  }
+};
+
+// Change Email Function
+const changeEmail = async () => {
+  if (user && newEmail.value.trim()) {
+    try {
+      await updateEmail(user, newEmail.value);
+      alert("Email updated successfully!");
+    } catch (error) {
+      console.error("Error updating email:", error);
+      alert("Failed to update email.");
+    }
+  } else {
+    alert("Please enter a valid email.");
+  }
+};
+
+
+// Reset Password Function
+const resetPassword = async () => {
+  if (user && user.email) {
+    try {
+      await sendPasswordResetEmail(auth, user.email);
+      alert("Password reset email sent.");
+    } catch (error) {
+      console.error("Error sending password reset email:", error);
+      alert("Failed to send reset email.");
+    }
+  } else {
+    alert("User email not available.");
   }
 };
 
@@ -183,7 +216,7 @@ onMounted(() => {
   <div class="flex flex-col md:flex-row w-full h-[100vh] md:h-[80vh] mt-2 my-4">
     <!-- Online Users Column -->
     <div
-      class="w-full h-full md:w-1/4 dark:bg-[#fff248] bg-[#111a3b] mb-4 md:mb-0 p-4 rounded-lg shadow-lg overflow-y-auto hidden md:block">
+      class="w-full h-full md:w-1/4 dark:bg-[#fff248] bg-[#111a3b] mb-4 md:mb-0 p-4 rounded-lg shadow-lg overflow-y-auto ">
       <h2 class="text-lg font-bold dark:text-black text-white mb-4">Online Users</h2>
       <div v-for="user in onlineUsers" :key="user.uid" class="flex items-center mb-4">
         <img v-if="user.photoURL" :src="user.photoURL" alt="User Profile" class="profile-pic" />
@@ -195,19 +228,26 @@ onMounted(() => {
       <div class="mb-4">
         <img :src="profilePic" alt="Profile Picture" class="profile-pic mb-4" />
         <input type="file" @change="handleFileChange"
-          class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-300 file:text-blue-700 hover:file:bg-blue-100"
+        class="file-input file-input-bordered file-input-warning w-full max-w-xs" 
           accept="image/*" />
 
-        <label class="block dark:text-black text-white">Display Name</label>
+        <label class="block dark:text-black text-white mt-4 mb-2">Display Name</label>
         <input v-model="displayName"
           class="w-full p-2 mb-2 rounded-md dark:bg-gray-200 bg-slate-700 text-gray-800 dark:text-black" />
 
-        <label class="block dark:text-black text-white">Email</label>
+        <label class="block dark:text-black text-white mt-2 mb-2">Email</label>
         <input v-model="email"
           class="w-full p-2 mb-2 rounded-md dark:bg-gray-200 bg-slate-700 text-gray-800 dark:text-black" readonly />
 
         <button @click="updateProfileInfo" :disabled="loading" class="btn btn-success mt-2">Update Profile</button>
         <button @click="deleteAccount" class="btn btn-danger mt-2">Delete Account</button>
+
+        <label class="block dark:text-black text-white mt-4 mb-2">Reset Password</label>
+        <!-- <input v-model="newEmail" type="email"
+          class="w-full p-2 mb-2 rounded-md dark:bg-gray-200 bg-slate-700 text-gray-800 dark:text-black" />
+        <button @click="changeEmail" class="btn btn-primary mt-2">Update Email</button> -->
+
+        <button @click="resetPassword" class="btn btn-warning mt-2">Reset Password</button>
       </div>
 
       <div class="">
