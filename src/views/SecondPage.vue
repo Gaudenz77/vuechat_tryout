@@ -6,7 +6,7 @@ import EmojiPicker from 'vue3-emoji-picker';
 import 'vue3-emoji-picker/css';
 import { getFirestore, collection, query, where, onSnapshot, doc, updateDoc } from 'firebase/firestore';
 import { getStorage, ref as storageRef, getDownloadURL, uploadBytes } from "firebase/storage";
-import { getAuth, updateProfile, deleteUser, updateEmail, sendPasswordResetEmail } from "firebase/auth";
+import { getAuth, updateProfile, deleteUser, /* updateEmail */ sendPasswordResetEmail } from "firebase/auth";
 
 
 
@@ -26,7 +26,7 @@ const displayName = ref(user?.displayName || "");
 const email = ref(user?.email || "");
 const loading = ref(false);
 const selectedFile = ref<File | null>(null);
-const newEmail = ref("");
+/* const newEmail = ref(""); */
 
 // State for online users and message input
 const onlineUsers = ref<User[]>([]);
@@ -48,7 +48,7 @@ const onSelectEmoji = (emoji: any) => {
 };
 
 // Change Email Function
-const changeEmail = async () => {
+/* const changeEmail = async () => {
   if (user && newEmail.value.trim()) {
     try {
       await updateEmail(user, newEmail.value);
@@ -60,7 +60,7 @@ const changeEmail = async () => {
   } else {
     alert("Please enter a valid email.");
   }
-};
+}; */
 
 
 // Reset Password Function
