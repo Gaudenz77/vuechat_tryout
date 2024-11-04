@@ -6,6 +6,7 @@ import ThemeToggle from './components/ThemeToggle.vue';
 import { getFirestore, doc, updateDoc, getDoc } from 'firebase/firestore';
 
 
+
 const currentYear = ref(new Date().getFullYear());
 // Ref to store user info
 const user = ref<any>(null);
@@ -102,7 +103,7 @@ const handleSignout = async () => {
         <li><a><router-link to="/register" v-if="!isLoggedIn">Register</router-link></a></li>
       </ul>
     </div>
-    <a class="btn btn-ghost text-sm md:text-xl font-bold italic ">  <br class="sm:-mt-2 md:-mt-2" />Chat</a>
+    <a class="btn btn-ghost text-sm md:text-xl font-bold italic ">SWIZZai<br class="sm:-mt-2 md:-mt-2" />Chat</a>
   </div>
   <div class="navbar-center hidden lg:flex">
     <ul class="menu menu-horizontal  px-1">
@@ -125,7 +126,7 @@ const handleSignout = async () => {
       </div>
       <div>
     <p class="me-4" v-if="user">{{ user.displayName }}</p>
-    <p class="text-sm me-4" v-else>null user</p>
+    <p class="text-sm me-4" v-else>Nobody...</p>
   </div>
       <div class="">
           <ThemeToggle />      

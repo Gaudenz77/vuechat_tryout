@@ -87,3 +87,25 @@ button:focus-visible {
   background-color: #025213;
   color: #ffffff;
 } */
+
+body.swal2-shown > [aria-hidden='true'] {
+  transition: 0.1s filter;
+  filter: blur(3px);
+}
+
+.dark .swal2-popup {
+  background-color: #010831 !important;
+  color:#fff248!important;
+}
+
+ .swal2-popup {
+  background-color:#fff248 !important;
+  color: #010831 !important;
+}
+/* .swal2-success-circular-line-left  {
+  background-color: #ffbe00 !important;
+}
+
+.swal2-success-circular-line-right {
+  background-color: #ffbe00 !important;
+} */
