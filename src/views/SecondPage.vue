@@ -252,16 +252,16 @@ onMounted(() => {
         </button>
         <!-- Online Users Column Content -->
 
-        <h1 class="text-lg font-bold dark:text-black text-white text-center">
+        <h1 class="text-lg font-bold text-black dark:text-white text-center">
           ACTIVITIES
         </h1>
 
-        <h2 class="uppercase text-lg font-bold dark:text-black text-white mb-4">
+        <h2 class="uppercase text-lg font-bold text-black dark:text-white mb-4">
           Online Users
         </h2>
         <div v-for="user in onlineUsers" :key="user.uid" class="flex items-center mb-4">
           <img v-if="user.photoURL" :src="user.photoURL" alt="User Profile" class="profile-pic" />
-          <p class="ml-2 text-lg dark:text-black text-white">
+          <p class="ml-2 text-lg text-black dark:text-white">
             <strong>{{ user.displayName }}</strong>
           </p>
         </div>
@@ -269,7 +269,7 @@ onMounted(() => {
         <!-- User Profile Edit Section -->
         <div class="flex items-center mb-4">
           <img :src="profilePic" alt="Profile Picture" class="profile-pic w-16 h-16 rounded-full mr-4" />
-          <h2 class="uppercase text-lg font-bold dark:text-black text-white">
+          <h2 class="uppercase text-lg font-bold text-black dark:text-white">
             <strong>{{ props.user.displayName }}'s</strong> Profile
           </h2>
         </div>
@@ -277,11 +277,11 @@ onMounted(() => {
           class="file-input file-input-bordered file-input-warning w-full max-w-xs mt-4" accept="image/*" />
 
 
-        <label class="block dark:text-black text-white mt-4 mb-2">Display Name</label>
+        <label class="block text-black dark:text-white mt-4 mb-2">Display Name</label>
         <input v-model="displayName"
           class="w-full p-2 mb-2 rounded-md bg-gray-200 dark:bg-slate-700 dark:text-white text-black" />
 
-        <label class="block dark:text-black text-white mt-2 mb-2">Email</label>
+        <label class="block text-black dark:text-white mt-2 mb-2">Email</label>
         <input v-model="email"
           class="w-full p-2 mb-2 rounded-md bg-gray-200 dark:bg-slate-700 dark:text-white text-black" readonly />
 
@@ -292,12 +292,12 @@ onMounted(() => {
           Delete Account
         </button>
 
-        <label class="block dark:text-black text-white mt-4 mb-2">Reset Password</label>
+        <label class="block text-black dark:text-white mt-4 mb-2">Reset Password</label>
         <!-- <input v-model="newEmail" type="email"
           class="w-full p-2 mb-2 rounded-md dark:bg-gray-200 bg-slate-700 text-gray-800 dark:text-black" />
         <button @click="changeEmail" class="btn btn-primary mt-2">Update Email</button> -->
 
-        <button @click="resetPassword" class="btn btn-warning mt-2">
+        <button @click="resetPassword" class="btn btn-warning mt-2 mb-4">
           Reset Password
         </button>
         <ClickYouFate />
