@@ -240,7 +240,7 @@ onMounted(() => {
     <div
       class="w-full h-full md:w-1/4 dark:bg-[#fff248] bg-[#111a3b] mb-4 md:mb-0 p-4 rounded-lg shadow-lg overflow-y-auto"
     >
-      <h1 class="text-lg font-bold dark:text-black text-white mb-4 text-center">
+      <h1 class="text-lg font-bold dark:text-black text-white  text-center">
         ACTIVITIES
       </h1>
       <h2 class="uppercase text-lg font-bold dark:text-black text-white mb-4">
@@ -261,19 +261,21 @@ onMounted(() => {
           <strong>{{ user.displayName }}</strong>
         </p>
       </div>
-
+      <hr class="mb-2" />
       <!-- User Profile Edit Section -->
-      <h2 class="uppercase text-lg font-bold dark:text-black text-white mb-4">
-        Your Profile
-      </h2>
-      <div class="mb-4">
-        <img :src="profilePic" alt="Profile Picture" class="profile-pic mb-4" />
-        <input
-          type="file"
-          @change="handleFileChange"
-          class="file-input file-input-bordered file-input-warning w-full max-w-xs"
-          accept="image/*"
-        />
+      <div class="flex items-center mb-4">
+        <img :src="profilePic" alt="Profile Picture" class="profile-pic w-16 h-16 rounded-full mr-4" />
+        <h2 class="uppercase text-lg font-bold dark:text-black text-white">
+          <strong>{{ props.user.displayName }}'s</strong> Profile
+        </h2>
+      </div>
+      <input
+        type="file"
+        @change="handleFileChange"
+        class="file-input file-input-bordered file-input-warning w-full max-w-xs mt-4"
+        accept="image/*"
+      />
+
 
         <label class="block dark:text-black text-white mt-4 mb-2"
           >Display Name</label
@@ -311,11 +313,11 @@ onMounted(() => {
         <button @click="resetPassword" class="btn btn-warning mt-2">
           Reset Password
         </button>
-      </div>
+     
 
-      <div class="">
+     
         <ClickYouFate />
-      </div>
+      
     </div>
 
     <!-- Chatbox Area (3/4 of the screen) -->
