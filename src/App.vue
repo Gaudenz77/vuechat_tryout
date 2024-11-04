@@ -143,7 +143,7 @@ const handleSignout = async () => {
     <router-view :user="user"></router-view><!-- Displays the active component -->
   </section>
 
-  <footer class="footer hidden md:block bg-[#111a3b] dark:bg-[#fff248] dark:text-[##010831] items-center p-4 fixed bottom-0">
+  <footer class="footer h-[4rem] bg-[#111a3b] dark:bg-[#fff248] dark:text-[##010831] items-center py-2 px-4 sm:pt-0 md:pt-4 fixed bottom-0">
     <aside class="grid-flow-col items-center">
       <svg width="36" height="36" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd"
         clip-rule="evenodd" class="fill-current">
