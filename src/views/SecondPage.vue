@@ -300,7 +300,7 @@ onMounted(() => {
         <button @click="resetPassword" class="btn btn-warning mt-2 mb-4">
           Reset Password
         </button>
-        <ClickYouFate />
+        <ClickYouFate class="text-black dark:text-white" />
         <!-- Online Users, Profile Edit Section, etc. -->
       </div>
     </div>
