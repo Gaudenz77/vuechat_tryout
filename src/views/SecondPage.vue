@@ -44,6 +44,9 @@ const email = ref(user?.email || "");
 const loading = ref(false);
 const selectedFile = ref<File | null>(null);
 
+const showModal = ref(false);
+
+
 // State for online users and chat
 const onlineUsers = ref<User[]>([]);
 const messageInput = ref("");
@@ -237,26 +240,80 @@ onMounted(() => {
 <template>
   <div class="flex flex-col md:flex-row w-full h-[100vh] md:h-[80vh] mt-2 my-4">
     <!-- Online Users Column -->
+    <!-- Modal trigger button for small screens -->
+    <button @click="showModal = true" class="md:hidden p-2 bg-blue-500 text-white rounded-md mb-2">
+      Show Activities
+    </button>
+    <!-- Modal for the left-hand column on small screens -->
+    <div v-if="showModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+      <div class="w-11/12 max-w-md h-5/6 bg-[#fff248] dark:bg-[#111a3b] p-4 rounded-lg shadow-lg overflow-y-auto">
+        <button @click="showModal = false" class="text-right text-gray-500 hover:text-gray-700">
+          Close
+        </button>
+        <!-- Online Users Column Content -->
+
+        <h1 class="text-lg font-bold dark:text-black text-white text-center">
+          ACTIVITIES
+        </h1>
+
+        <h2 class="uppercase text-lg font-bold dark:text-black text-white mb-4">
+          Online Users
+        </h2>
+        <div v-for="user in onlineUsers" :key="user.uid" class="flex items-center mb-4">
+          <img v-if="user.photoURL" :src="user.photoURL" alt="User Profile" class="profile-pic" />
+          <p class="ml-2 text-lg dark:text-black text-white">
+            <strong>{{ user.displayName }}</strong>
+          </p>
+        </div>
+        <hr class="mb-2" />
+        <!-- User Profile Edit Section -->
+        <div class="flex items-center mb-4">
+          <img :src="profilePic" alt="Profile Picture" class="profile-pic w-16 h-16 rounded-full mr-4" />
+          <h2 class="uppercase text-lg font-bold dark:text-black text-white">
+            <strong>{{ props.user.displayName }}'s</strong> Profile
+          </h2>
+        </div>
+        <input type="file" @change="handleFileChange"
+          class="file-input file-input-bordered file-input-warning w-full max-w-xs mt-4" accept="image/*" />
+
+
+        <label class="block dark:text-black text-white mt-4 mb-2">Display Name</label>
+        <input v-model="displayName"
+          class="w-full p-2 mb-2 rounded-md bg-gray-200 dark:bg-slate-700 dark:text-white text-black" />
+
+        <label class="block dark:text-black text-white mt-2 mb-2">Email</label>
+        <input v-model="email"
+          class="w-full p-2 mb-2 rounded-md bg-gray-200 dark:bg-slate-700 dark:text-white text-black" readonly />
+
+        <button @click="updateProfileInfo" :disabled="loading" class="btn btn-success mt-2">
+          Update Profile
+        </button>
+        <button @click="deleteAccount" class="btn btn-danger mt-2">
+          Delete Account
+        </button>
+
+        <label class="block dark:text-black text-white mt-4 mb-2">Reset Password</label>
+        <!-- <input v-model="newEmail" type="email"
+          class="w-full p-2 mb-2 rounded-md dark:bg-gray-200 bg-slate-700 text-gray-800 dark:text-black" />
+        <button @click="changeEmail" class="btn btn-primary mt-2">Update Email</button> -->
+
+        <button @click="resetPassword" class="btn btn-warning mt-2">
+          Reset Password
+        </button>
+        <ClickYouFate />
+        <!-- Online Users, Profile Edit Section, etc. -->
+      </div>
+    </div>
     <div
-      class="w-full h-full md:w-1/4 dark:bg-[#fff248] bg-[#111a3b] mb-4 md:mb-0 p-4 rounded-lg shadow-lg overflow-y-auto"
-    >
+      class="hidden md:block w-full h-full md:w-1/4 dark:bg-[#fff248] bg-[#111a3b] mb-4 md:mb-0 p-4 rounded-lg shadow-lg overflow-y-auto">
       <h1 class="text-lg font-bold dark:text-black text-white  text-center">
         ACTIVITIES
       </h1>
       <h2 class="uppercase text-lg font-bold dark:text-black text-white mb-4">
         Online Users
       </h2>
-      <div
-        v-for="user in onlineUsers"
-        :key="user.uid"
-        class="flex items-center mb-4"
-      >
-        <img
-          v-if="user.photoURL"
-          :src="user.photoURL"
-          alt="User Profile"
-          class="profile-pic"
-        />
+      <div v-for="user in onlineUsers" :key="user.uid" class="flex items-center mb-4">
+        <img v-if="user.photoURL" :src="user.photoURL" alt="User Profile" class="profile-pic" />
         <p class="ml-2 text-lg dark:text-black text-white">
           <strong>{{ user.displayName }}</strong>
         </p>
@@ -269,91 +326,50 @@ onMounted(() => {
           <strong>{{ props.user.displayName }}'s</strong> Profile
         </h2>
       </div>
-      <input
-        type="file"
-        @change="handleFileChange"
-        class="file-input file-input-bordered file-input-warning w-full max-w-xs mt-4"
-        accept="image/*"
-      />
-
-
-        <label class="block dark:text-black text-white mt-4 mb-2"
-          >Display Name</label
-        >
-        <input
-          v-model="displayName"
-          class="w-full p-2 mb-2 rounded-md bg-gray-200 dark:bg-slate-700 dark:text-white text-black"
-        />
-
-        <label class="block dark:text-black text-white mt-2 mb-2">Email</label>
-        <input
-          v-model="email"
-          class="w-full p-2 mb-2 rounded-md bg-gray-200 dark:bg-slate-700 dark:text-white text-black"
-          readonly
-        />
-
-        <button
-          @click="updateProfileInfo"
-          :disabled="loading"
-          class="btn btn-success mt-2"
-        >
-          Update Profile
-        </button>
-        <button @click="deleteAccount" class="btn btn-danger mt-2">
-          Delete Account
-        </button>
-
-        <label class="block dark:text-black text-white mt-4 mb-2"
-          >Reset Password</label
-        >
-        <!-- <input v-model="newEmail" type="email"
+      <input type="file" @change="handleFileChange"
+        class="file-input file-input-bordered file-input-warning w-full max-w-xs mt-4" accept="image/*" />
+      <label class="block dark:text-black text-white mt-4 mb-2">Display Name</label>
+      <input v-model="displayName"
+        class="w-full p-2 mb-2 rounded-md bg-gray-200 dark:bg-slate-700 dark:text-white text-black" />
+      <label class="block dark:text-black text-white mt-2 mb-2">Email</label>
+      <input v-model="email" class="w-full p-2 mb-2 rounded-md bg-gray-200 dark:bg-slate-700 dark:text-white text-black"
+        readonly />
+      <button @click="updateProfileInfo" :disabled="loading" class="btn btn-success mt-2">
+        Update Profile
+      </button>
+      <button @click="deleteAccount" class="btn btn-danger mt-2">
+        Delete Account
+      </button>
+      <label class="block dark:text-black text-white mt-4 mb-2">Reset Password</label>
+      <!-- <input v-model="newEmail" type="email"
           class="w-full p-2 mb-2 rounded-md dark:bg-gray-200 bg-slate-700 text-gray-800 dark:text-black" />
         <button @click="changeEmail" class="btn btn-primary mt-2">Update Email</button> -->
-
-        <button @click="resetPassword" class="btn btn-warning mt-2">
-          Reset Password
-        </button>
-     
-
-     
-        <ClickYouFate />
-      
+      <button @click="resetPassword" class="btn btn-warning mt-2">
+        Reset Password
+      </button>
+      <ClickYouFate />
     </div>
-
     <!-- Chatbox Area (3/4 of the screen) -->
     <div
-      class="w-full md:w-3/4 flex flex-col dark:bg-[#fff248] bg-[#111a3b] p-4 rounded-lg shadow-lg md:ml-4 h-4/5 md:h-full"
-    >
+      class="w-full md:w-3/4 flex flex-col dark:bg-[#fff248] bg-[#111a3b] p-4 rounded-lg shadow-lg md:ml-4 h-4/5 md:h-full">
       <h1 class="text-lg font-bold dark:text-black text-white mb-4 text-center">
         CHATSPACE
       </h1>
 
       <!-- Chat messages container -->
-      <div
-        ref="chatContainer"
-        class="flex-1 bg-[#111a3b] dark:bg-[#fff248] text-gray-800 rounded-lg p-4 overflow-y-auto"
-      >
-        <div
-          v-for="message in messages"
-          :key="message.id"
-          class="w-full flex items-start mb-4"
-        >
-          <img
-            :src="message.userPhotoURL"
-            alt="Profile Picture"
-            v-if="message.userPhotoURL"
-            class="profile-pic my-auto"
-          />
+      <div ref="chatContainer"
+        class="flex-1 bg-[#111a3b] dark:bg-[#fff248] text-gray-800 rounded-lg p-4 overflow-y-auto">
+        <div v-for="message in messages" :key="message.id" class="w-full flex items-start mb-4">
+          <img :src="message.userPhotoURL" alt="Profile Picture" v-if="message.userPhotoURL"
+            class="profile-pic my-auto" />
           <div class="flex-1">
             <div class="chat chat-start">
-              <div
-                :class="[
-                  'chat-bubble mt-2 pt-3 pb-4 pe-4 w-full md:w-full lg:w-3/4 ',
-                  message.userId === props.user.uid
-                    ? 'chat-bubble-warning'
-                    : 'chat-bubble-info',
-                ]"
-              >
+              <div :class="[
+                'chat-bubble mt-2 pt-3 pb-4 pe-4 w-full md:w-full lg:w-3/4 ',
+                message.userId === props.user.uid
+                  ? 'chat-bubble-warning'
+                  : 'chat-bubble-info',
+              ]">
                 <div class="my-auto me-4 text-sm mb-4">
                   <strong>{{ message.userName }}:</strong>
                 </div>
@@ -371,38 +387,22 @@ onMounted(() => {
         </div>
       </div>
       <!-- Message input and send button -->
-      <form
-        @submit.prevent="handleSendMessage"
-        class="flex items-center mt-4 w-full"
-      >
+      <form @submit.prevent="handleSendMessage" class="flex items-center mt-4 w-full">
         <!-- Textarea for message input -->
         <div class="relative flex-1">
-          <textarea
-            v-model="messageInput"
+          <textarea v-model="messageInput"
             class="w-full pr-16 rounded-md p-4 bg-gray-200 dark:bg-slate-700 dark:text-white text-black resize-none"
-            id="message"
-            @keydown.enter="handleKeyPress"
-            placeholder="Type your message..."
-          ></textarea>
+            id="message" @keydown.enter="handleKeyPress" placeholder="Type your message..."></textarea>
 
           <!-- Buttons inside the textarea container (positioned to the right) -->
           <div class="absolute right-2 top-2 flex space-x-2 py-2 pe-2">
             <!-- Emoji Picker Button -->
-            <a
-              href="#emoji_modal"
-              class="text-orange-500 text-2xl p-3 rounded-full"
-            >
-              <i
-                class="fa-solid fa-face-grin-squint-tears fa-spin text-orange-500 hover:text-yellow-500 -me-2"
-              ></i>
+            <a href="#emoji_modal" class="text-orange-500 text-2xl p-3 rounded-full">
+              <i class="fa-solid fa-face-grin-squint-tears fa-spin text-orange-500 hover:text-yellow-500 -me-2"></i>
             </a>
 
             <!-- Send Button -->
-            <button
-              type="submit"
-              aria-label="Send message"
-              class="btn btn-success rounded-full"
-            >
+            <button type="submit" aria-label="Send message" class="btn btn-success rounded-full">
               <i class="fa-solid fa-paper-plane"></i>
             </button>
           </div>
