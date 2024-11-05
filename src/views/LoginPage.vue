@@ -10,7 +10,8 @@ export default {
 </script>
 
 <template>
-    <div class="text-center text-black dark:text-white text-lg font-bold mt-4">
+    <div>
+        <div class="text-center text-black dark:text-white text-lg font-bold mt-4">
         <h1 class="text-yellow-900 dark:text-yellow-400">Login Page</h1>
         <p>This is the login page!</p>
     </div>
@@ -19,4 +20,6 @@ export default {
             <FormTwo />
         </div>
     </div>
+    </div>
+    
 </template>

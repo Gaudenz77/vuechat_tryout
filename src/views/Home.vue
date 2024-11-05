@@ -17,55 +17,18 @@ export default {
     <!-- Right div for text (2/3 width on small and above screens) -->
     <div class="sm:w-2/3 w-full mt-8 px-8">
       <div class="text-[1.5rem] font-bold dark:text-black text-white ">
-        <h1>Home Page</h1>
-        <p class="">Welcome to Nowhere!!! heeeeee firebase is hella quick, but a mess...???</p>  
+        <h1>HSWIZZai - Homepage Welcomes Yalls!</h1>
+        <p class="text-base text-yellow-400 dark:text-indigo-800">Welcome to this chatspace, feuturing vue3 and firebase</p>  
       </div>
-      <p class="dark:text-gray-900 text-slate-100 mt-4">
-        This is a sample text block that will take up 2/3 of the width on small and larger screens, and stack below the image on smaller screens. Use this space to provide a description or any other relevant content.
-      </p>
-      <p class="dark:text-gray-900 text-slate-100 my-4">
-        This is a sample text block that will take up 2/3 of the width on small and larger screens, and stack below the image on smaller screens. Use this space to provide a description or any other relevant content.
-      </p>
-      <p class="dark:text-gray-900 text-slate-100 mb-4">
-        This is a sample text block that will take up 2/3 of the width on small and larger screens, and stack below the image on smaller screens. Use this space to provide a description or any other relevant content.
-      </p>
+      <p class="dark:text-gray-900 text-slate-100 text-base italic mt-4">
+Heyhey all,<br />
+In this small web-application, i provide a simple chat-page where authenticated users can exchange messages , talk about this n that, and jut exchange humen interactions.      </p>
+      <p class="dark:text-gray-900 text-slate-100 text-base italic my-4">
+     </p><h3 class="text-base font-bold">How to use:</h3> 
+      <p class="dark:text-gray-900 text-slate-100 text-base italic mb-4">
+First time visitors, please use the register link in the navbar or in the login mask to get to the registration form. there you can fill in a displayname (username), we need a e-mail address. You can use a fantasy mail address or sign up/in with Google</p>
     </div>  
   </div>
-
-
-
-  <!-- <div class="min-h-screen flex flex-col justify-center items-center">
-    <div class="row w-full h-[150px] sticky mt-0">
-      <div class="flex flex-wrap justify-center">
-      </div>
-    </div>
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 p-6">
-    
-      <div class="flex justify-center items-center bg-gray-600 dark:bg-red-200 p-6 rounded-lg shadow-md">
-        <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Et fugiat, repudiandae possimus inventore non quam
-          accusamus nam pariatur provident vero ducimus quae beatae molestiae assumenda? Minima ea ipsum enim
-          consequatur?</p>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src="/vite.svg" class="logo w-16" alt="Vite logo" />
-        </a>
-      </div>
-      <div class="flex justify-center items-center bg-gray-600 dark:bg-red-200 p-6 rounded-lg shadow-md">
-        <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Architecto aliquam vel ab dolore praesentium
-          aliquid perferendis voluptatibus, autem blanditiis sequi facere culpa aut aperiam quisquam accusamus
-          cupiditate, modi pariatur inventore?</p>
-        <a href="https://vuejs.org/" target="_blank">
-        
-        </a>
-      </div>
-    </div>
-Second row, three columns 
-      <div class="flex justify-center items-center bg-gray-600 dark:bg-red-200 p-6 rounded-lg shadow-md">
-      </div>
-      <div class="flex justify-center items-center bg-gray-100 p-6 rounded-lg shadow-md">
-        <RangeSlider />
-      </div>
-    </div>
-  </div> -->
 </div>
 
 

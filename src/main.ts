@@ -6,7 +6,7 @@ import router from "./router"; // Import the router
 import { initializeApp } from "firebase/app"; // Import from 'firebase/app' for frontend use
 import { getFirestore } from "firebase/firestore"; // Import Firestore
 import { getMessaging } from "firebase/messaging";
-  /* import { initializeAppCheck, ReCaptchaV3Provider } from "firebase/app-check"; */
+import { initializeAppCheck, ReCaptchaV3Provider } from "firebase/app-check";
 
 
 
@@ -20,15 +20,16 @@ const firebaseConfig = {
   appId: import.meta.env.VITE_APP_ID,
   measurementId: import.meta.env.VITE_MEASUREMENT_ID,
 };
-
+/* console.log('ReCAPTCHA Site Key:', import.meta.env.VITE_RECAPTCHA_SITE_KEY); */
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
-/* const appCheck = initializeAppCheck(app, {
-    provider: new ReCaptchaV3Provider(import.meta.env.VITE_RECAPTCHA_SITE_KEY),
-    isTokenAutoRefreshEnabled: false
+
+
+const appCheck = initializeAppCheck(app, {
+  provider: new ReCaptchaV3Provider(import.meta.env.VITE_RECAPTCHA_SITE_KEY),
+  isTokenAutoRefreshEnabled: true,
 });
- */
 
 
 // Initialize Firestore
@@ -53,4 +54,4 @@ export { db };
 export { messaging };
 
 // Export the Firestore instance for use in other files
-/* export { appCheck }; */
+export { appCheck };

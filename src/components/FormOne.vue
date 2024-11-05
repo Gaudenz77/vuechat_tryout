@@ -126,6 +126,7 @@ const signInWithGoogle = async (event: Event) => {
 
 
 <template>
+  <div>
   <div class="form-container my-12 py-8">
     <form class="dark:text-slate-100 text-slate-800">
       <!-- New file input for uploading profile picture -->
@@ -172,6 +173,8 @@ const signInWithGoogle = async (event: Event) => {
 
     </form>
   </div>
+  </div>
+
 </template>
 
 <style>
