@@ -158,7 +158,7 @@ console.log(import.meta.env.VITE_API_KEY);
       </button>
       </div>
       <div>
-    <p class="me-4" v-if="user">{{ user.displayName }}</p>
+    <p class="me-4 text-sm font-bold" v-if="user">{{ user.displayName }}</p>
     <p class="text-sm me-4" v-else>Nobody...</p>
   </div>
       <div class="">
