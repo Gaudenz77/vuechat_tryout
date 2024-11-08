@@ -1,5 +1,5 @@
 <!-- src/components/NotificationModal.vue -->
-<template>
+<!-- <template>
     <div
       v-if="show"
       class="fixed inset-0 z-50 flex items-center justify-center bg-gray-800 bg-opacity-75"
@@ -15,7 +15,7 @@
         </button>
       </div>
     </div>
-  </template>
+  </template> -->
   
 
   
