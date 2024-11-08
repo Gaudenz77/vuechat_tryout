@@ -4,7 +4,6 @@ import { getAuth, onAuthStateChanged, setPersistence, browserSessionPersistence,
 import { useRouter } from 'vue-router';
 import ThemeToggle from './components/ThemeToggle.vue';
 import { getFirestore, doc, updateDoc, getDoc } from 'firebase/firestore';
-import { getMessaging, getToken } from 'firebase/messaging'; 
 
 
 
@@ -15,7 +14,7 @@ const isLoggedIn = ref(false);
 const auth = getAuth();
 const router = useRouter();
 const db = getFirestore(); 
-const messaging = getMessaging(); 
+
 
 onMounted(() => {
   setPersistence(auth, browserSessionPersistence)
@@ -72,32 +71,6 @@ const handleSignout = async () => {
   }
 };
 
-const permissionGranted = ref(false);
-
-const requestNotificationPermission = async () => {
-  try {
-    const permission = await Notification.requestPermission();
-
-    if (permission === 'granted') {
-      permissionGranted.value = true;
-      console.log('Notification permission granted.');
-      console.log(import.meta.env.VITE_VAPID_KEY);
-console.log(import.meta.env.VITE_API_KEY);
-      // Retrieve FCM token
-      const token = await getToken(messaging, { vapidKey: import.meta.env.VITE_VAPID_KEY });
-
-      if (token) {
-        console.log('FCM Token:', token);
-      } else {
-        console.log('No FCM token available.');
-      }
-    } else {
-      console.error('Notification permission denied.');
-    }
-  } catch (err) {
-    console.error('Error requesting notification permission:', err);
-  }
-};
 
 </script>
 
@@ -141,8 +114,8 @@ console.log(import.meta.env.VITE_API_KEY);
         <li><a><router-link activeClass="font-bold" to="/register" v-if="!isLoggedIn">Register</router-link></a></li>
         <li>
           <div>
-      <button class="btn bg-indigo-300" @click="requestNotificationPermission">Enable Notifications</button>
-      <p v-if="permissionGranted">Notifications are enabled!</p>
+      <!-- <button class="btn bg-indigo-300" @click="requestNotificationPermission">Enable Notifications</button>
+      <p v-if="permissionGranted">Notifications are enabled!</p> -->
      <!--  <p v-else>If you want to receive notifications, please enable them.</p> -->
     </div>
         </li>

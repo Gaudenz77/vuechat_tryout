@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, watch, onMounted, nextTick } from "vue";
 import ClickYouFate from "../components/ClickYouFate.vue";
+import { getMessaging, getToken } from 'firebase/messaging';
 import { useChat } from "../composables/useChat";
 import EmojiPicker from "vue3-emoji-picker";
 import "vue3-emoji-picker/css";
@@ -44,6 +45,7 @@ const email = ref(user?.email || "");
 const loading = ref(false);
 const selectedFile = ref<File | null>(null);
 
+
 const showModal = ref(false);
 
 
@@ -55,6 +57,8 @@ const { messages, sendMessage } = useChat();
 
 // Props for receiving user data
 const props = defineProps<{ user: any }>();
+
+
 
 // Emoji selection handler
 const onSelectEmoji = (emoji: any) => {
@@ -230,10 +234,55 @@ watch(messages, async () => {
   scrollToBottom();
 });
 
-// Initialize component
+const permissionGranted = ref(false);
+const messaging = getMessaging();
+
+const requestNotificationPermission = async () => {
+  try {
+    const permission = await Notification.requestPermission();
+
+    if (permission === 'granted') {
+      permissionGranted.value = true;
+      console.log('Notification permission granted.');
+
+      // Retrieve FCM token
+      const token = await getToken(messaging, { vapidKey: import.meta.env.VITE_VAPID_KEY });
+      if (token) {
+        console.log('FCM Token:', token);
+      } else {
+        console.log('No FCM token available.');
+      }
+    } else {
+      console.error('Notification permission denied.');
+    }
+  } catch (err) {
+    console.error('Error requesting notification permission:', err);
+  }
+};
+
+// Initialize component and show modal if not previously shown
 onMounted(() => {
   setupOnlineUsers();
   scrollToBottom();
+  
+  // Show modal only once if not previously shown
+  const notificationShown = localStorage.getItem('notificationModalShown');
+  if (!notificationShown) {
+    Swal.fire({
+      title: 'Enable Notifications',
+      text: 'Stay updated with new messages!',
+      icon: 'info',
+      showCancelButton: true,
+      confirmButtonText: 'Enable Notifications',
+      cancelButtonText: 'Later',
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        await requestNotificationPermission();
+      }
+      // Save to local storage so it doesn’t show again
+      localStorage.setItem('notificationModalShown', 'true');
+    });
+  }
 });
 </script>
 
