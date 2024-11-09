@@ -13,6 +13,7 @@ import {
   onSnapshot,
   doc,
   updateDoc,
+  setDoc,
 } from "firebase/firestore";
 import {
   getStorage,
@@ -44,6 +45,7 @@ const displayName = ref(user?.displayName || "");
 const email = ref(user?.email || "");
 const loading = ref(false);
 const selectedFile = ref<File | null>(null);
+const db = getFirestore();
 
 
 const showModal = ref(false);
@@ -241,22 +243,32 @@ const requestNotificationPermission = async () => {
   try {
     const permission = await Notification.requestPermission();
 
-    if (permission === 'granted') {
+    if (permission === "granted") {
       permissionGranted.value = true;
-      console.log('Notification permission granted.');
+      console.log("Notification permission granted.");
 
       // Retrieve FCM token
       const token = await getToken(messaging, { vapidKey: import.meta.env.VITE_VAPID_KEY });
       if (token) {
-        console.log('FCM Token:', token);
+        console.log("FCM Token:", token);
+
+        // Store the FCM token in Firestore for the authenticated user
+        const user = auth.currentUser;
+        if (user) {
+          await setDoc(
+            doc(db, "users", user.uid),
+            { fcmToken: token },
+            { merge: true }
+          );
+        }
       } else {
-        console.log('No FCM token available.');
+        console.log("No FCM token available.");
       }
     } else {
-      console.error('Notification permission denied.');
+      console.error("Notification permission denied.");
     }
   } catch (err) {
-    console.error('Error requesting notification permission:', err);
+    console.error("Error requesting notification permission:", err);
   }
 };
 
