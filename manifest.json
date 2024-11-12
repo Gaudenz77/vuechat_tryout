@@ -1,0 +1,29 @@
+{
+    "theme_color": "#e8ff38",
+    "background_color": "#075a78",
+    "icons": [
+        {
+            "purpose": "maskable",
+            "sizes": "512x512",
+            "src": "./public/assets/img/icon512_maskable.png",
+            "type": "image/png"
+        },
+        {
+            "purpose": "any",
+            "sizes": "512x512",
+            "src": "./public/assets/img/icon512_rounded.png",
+            "type": "image/png"
+        }
+    ],
+    "orientation": "any",
+    "display": "standalone",
+    "dir": "auto",
+    "lang": "en-US",
+    "name": "Swizz_CHat_APP",
+    "short_name": "SWIZZ24",
+    "start_url": "https://my-app-onfire-24.web.app/",
+    "scope": "https://my-app-onfire-24.web.app/secondpage",
+    "description": "SwiZZ ONEChannel Chat App-Ex^change yourselves",
+    "id": "https://my-app-onfire-24.web.app/"
+}
+
